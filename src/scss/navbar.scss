@@ -1,0 +1,25 @@
+@import 'flexbox';
+
+.nav {
+    @include flexbox;
+    @include flex-flow(column nowrap);
+    @include align-items(center);
+
+    .item {
+        width: 82px;
+        margin-bottom: 20px;
+        font: 700 16px/20px normal;
+        color: #fff;
+        text-decoration: none;
+        transition: transform .5s ease;
+
+        &:hover {
+            transform: translate3d(10px, 0, 0);
+        }
+
+        i {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+    }
+}

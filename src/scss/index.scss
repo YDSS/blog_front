@@ -1,0 +1,36 @@
+@import 'global';
+@import 'flexbox';
+
+html, body {
+    height: 100%;
+}
+
+.wrap {
+    height: 100%;
+}
+
+.app {
+    width: 100%;
+    height: 100%;
+
+    .content {
+        width: 100% * $content-width;
+        margin-left: 100% * $sidebar-width;
+        padding-left: 30px;
+    }
+
+    .editor {
+        width: 100% * $content-width;
+        margin-left: 100% * $sidebar-width;
+    }
+    
+    .article {
+        width: 100% * $content-width;
+        margin-left: 100% * $sidebar-width;
+        padding-left: 30px;
+    }
+
+    .sidebar {
+        width: 100% * $sidebar-width;
+    }
+}
