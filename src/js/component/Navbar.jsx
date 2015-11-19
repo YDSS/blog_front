@@ -5,37 +5,6 @@ class Navbar extends Component {
 
     constructor(props) {
         super(props);
-
-        let navItem = [
-            {
-                name: 'HOME',
-                icon: 'home',
-                url: '/home'
-            },
-            {
-                name: 'EDIT',
-                icon: 'pencil',
-                url: '/edit'
-            },
-            {
-                name: 'TAG',
-                icon: 'tags',
-                url: '/tag'
-            },
-            {
-                name: 'ABOUT',
-                icon: 'question',
-                url: '/about'
-            },
-            {
-                name: 'Github',
-                icon: 'github',
-                url: '//github.com/YDSS'
-            }
-        ];
-        this.state = {
-            navItem: navItem
-        };
     }
 
     render() {
@@ -49,10 +18,11 @@ class Navbar extends Component {
                 </Link>
             );
         };
+        const { navItem } = this.props;
 
         return (
             <nav className='nav'>
-                {this.state.navItem.map(createItem)}
+                {navItem.map(createItem)}
             </nav>
         );
     }

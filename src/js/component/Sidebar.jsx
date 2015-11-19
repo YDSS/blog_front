@@ -15,11 +15,13 @@ class Sidebar extends Component {
     }
 
     render() {
+        const { navItem } = this.props;
+
         return (
             <div className='sidebar'>
                 <div className='bg'></div>
                 <Avatar img={this.state.avatar.img} title={this.state.avatar.title} />
-                <Navbar />
+                <Navbar navItem={navItem} />
             </div>
         );
     }
