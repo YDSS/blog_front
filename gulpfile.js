@@ -92,11 +92,12 @@ gulp.task('copy:html', function () {
 });
 
 gulp.task('server', function () {
-    var port = 3000;
+    var port = 8888;
     http.createServer(
         st({
             path: paths.DIST,
-            cache: false
+            cache: false,
+            index: 'index.html'
         })
     ).listen(port);
     console.log('please browser http://127.0.0.1:' + port);
