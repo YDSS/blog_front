@@ -32,6 +32,7 @@ var b = browserify({
 b.transform('babelify', {
     presets: [
         'es2015',
+        'stage-2',
         'react'
     ]
 })

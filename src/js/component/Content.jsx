@@ -3,17 +3,13 @@ import ListItem from './ListItem.jsx';
 
 class Content extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() { 
-        const { list } = this.props;
+        const { articleList } = this.props;
 
         return (
             <div className='content'>
-                {list.map(item => 
-                    <ListItem data={item} />
+                {articleList.map(item => 
+                    <ListItem data={item} key={item.id} />
                 )}
             </div>
         );

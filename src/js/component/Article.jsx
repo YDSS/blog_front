@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { rawMarkup } from './mixin/markup.jsx';
+import { rawMarkup } from '../mixin/markup.jsx';
 
 class Article extends Component {
 

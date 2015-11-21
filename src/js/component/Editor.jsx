@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { rawMarkup } from './mixin/markup.jsx';
+import { pushState } from 'redux-router';
+import { rawMarkup } from '../mixin/markup.jsx';
+import * as articleActionCreators from '../action/articleAction';
 
 class Editor extends Component {
 
@@ -14,9 +16,9 @@ class Editor extends Component {
     }
 
     render() {
-        var prevState = this.state.preview;
-        var displayText = prevState ? 'none' : 'block';
-        var displayView = prevState ? 'block' : 'none';
+        const prevState = this.state.preview;
+        let displayText = prevState ? 'none' : 'block';
+        let displayView = prevState ? 'block' : 'none';
 
         return (
             <div className='editor'>
@@ -32,24 +34,44 @@ class Editor extends Component {
                     style={{display: displayView}} 
                     dangerouslySetInnerHTML={rawMarkup(this.state.text)}
                 />
-                <div 
-                    className='btn' 
-                    ref='preview' 
-                    onClick={this.handleClick}>
-                    {this.state.preview ? 'Back' : 'Preview'}
+                <div className='btns'>
+                    <div 
+                        className='btn' 
+                        ref='preview' 
+                        onClick={this.onPreviewClick.bind(this)}>
+                        {this.state.preview ? 'Back' : 'Preview'}
+                    </div>
+                    <div
+                        className='btn'
+                        ref='submit'
+                        onClick={this.onSubmit.bind(this)}>
+                        submit
+                    </div>
                 </div>
             </div>
         );
     }
 
-    handleClick() {
-        var preView = this.refs.view;
-        var textarea = this.refs.textarea;
+    onPreviewClick() {
+        const refs = this.refs;
+        let preView = refs.view;
+        let textarea = refs.textarea;
 
         this.setState({
             text: textarea.value,
             preview: !this.state.preview
         });
+    }
+
+    onSubmit() {
+        const { dispatch } = this.props;
+        const refs = this.refs;
+        let content = refs.textarea.value; 
+        
+        // add new article
+        dispatch(articleActionCreators.addArticle(content));
+        // route to home
+        dispatch(pushState(null, '/home'));
     }
 }
 

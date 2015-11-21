@@ -1,46 +1,26 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import { compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { Router, Route, IndexRoute, Link } from 'react-router';
-import { reduxReactRouter, routerStateReducer, ReduxRouter } from 'react-router';
+import { Route, IndexRoute, Link } from 'react-router';
+import { ReduxRouter } from 'redux-router';
 import App from './container/App.jsx';
-// import configureStore from './store/configureStore';
-import rootReducer from './reducer/index';
+import Content from './component/Content.jsx';
+import Editor from './component/Editor.jsx';
+import Article from './component/Article.jsx';
+import configureStore from './store/configureStore';
+import routes from './route'
 
-// let store = configureStore();
+// create store without initial state
+let store = configureStore();
+// html entry point
 let $wrap = document.getElementById('wrapper');
 
-// <IndexRoute component={Content} />
-// <Route path='article/:id' component={Article} />
-
-const routes = (
-    <Route path='/' component={App}>
-        <Route path='home' component={Content} />
-        <Route path='edit' component={Editor} />
-    </Route>
+render(
+    <Provider store={store}>
+        <ReduxRouter>
+            {routes}
+        </ReduxRouter>
+    </Provider>,
+    $wrap
 );
 
-const store = compose(
-    reduxReactRouter({
-        routers
-    })
-)(createStore)(rootReducer);
-
-// render(
-//     <Provider store={store}>
-//         <App />
-//     </Provider>,
-//     $wrap
-// );
-// render(
-//     <Router>
-//         <Route path='/' component={App}>
-//             <IndexRoute component={Content} />
-//             <Route path='home' component={Content} />
-//             <Route path='edit' component={Editor} />
-//             <Route path='article/:id' component={Article} />
-//         </Route>
-//     </Router>, 
-//     $wrap
-// );

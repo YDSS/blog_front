@@ -3,10 +3,6 @@ import { Link } from 'react-router';
 
 class ListItem extends Component {
 
-    constructor(props) { 
-        super(props);
-    }
-
     render() {
         const { data } = this.props;
         let tags;

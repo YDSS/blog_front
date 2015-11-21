@@ -1,3 +1,5 @@
+import { getTitleAndAbs } from '../mixin/analyzeContent';
+
 const initialState = [
     {
         id: '123',
@@ -26,6 +28,19 @@ const initialState = [
 
 export default function articleList(state = initialState, action) {
     switch (action.type) {
+        case 'add_article':
+            let { title, abs } = getTitleAndAbs(action.content);
+
+            return [
+                {
+                    id: '567',
+                    title: title,
+                    abs: abs,
+                    time: '2015.11.21',
+                    url: '/article/:567'
+                },
+                ...state
+            ];
         default:
             return state;    
     }

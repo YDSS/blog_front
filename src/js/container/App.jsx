@@ -1,17 +1,28 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Sidebar from '../component/Sidebar.jsx';
-import Content from '../component/Content.jsx';
 
 class App extends Component {
 
+    renderChildren(...props) {
+        return React.Children.map(
+            this.props.children,
+            child => {
+                return React.cloneElement(
+                    child,
+                    ...props
+                )
+            }
+        );
+    }
+
     render() {
-        const { navItem, articleList } = this.props;
+        const { children,  navItem, ...other } = this.props;
 
         return (
             <div className='app' id='app'>
                 <Sidebar navItem={navItem} />
-                <Content list={articleList} />
+                {children && this.renderChildren(other)}
             </div>
         );
     }
@@ -19,6 +30,9 @@ class App extends Component {
 
 function mapStateToProps(state) {
     return {
+        // state.router is state of redux-router for routing
+        // must be return as name router
+        router: state.router,
         navItem: state.navItem,
         articleList: state.articleList
     }
