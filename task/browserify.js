@@ -1,10 +1,12 @@
+'use strict'
+
 let gulp = require('gulp');
 let gutil = require('gulp-util');
 let browserify = require('browserify');
 let babelify = require('babelify');
 let watchify = require('watchify');
 let source = require('vinyl-source-stream');
-let { paths } = require('./config');
+let paths = require('./config').paths;
 
 // browserfiy instance
 let b = browserify({
@@ -14,8 +16,6 @@ let b = browserify({
     packageCache: {},
     plugin: [watchify]
 });
-// export browserify instance for extension
-export default b;
 // transform react to plain js
 b.transform('babelify', {
     // presets of babel, see http://babeljs.io/docs/plugins for more
