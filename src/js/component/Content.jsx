@@ -4,14 +4,13 @@ import ListItem from './ListItem.jsx';
 class Content extends Component {
 
     render() { 
+        const { articleList } = this.props;
+
         return (
             <div className='content'>
-                <ListItem />
-                <ListItem />
-                <ListItem />
-                <ListItem />
-                <ListItem />
-                <ListItem />
+                {articleList.map(item => 
+                    <ListItem data={item} key={item.id} />
+                )}
             </div>
         );
     }
