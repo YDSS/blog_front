@@ -1,3 +1,7 @@
+import { 
+    ADD_ARTICLE, 
+    RECEIVE_ALL_ARTICLE
+} from '../action/articleAction';
 import { getTitleAndAbs } from '../mixin/analyzeContent';
 
 const initialState = [
@@ -26,21 +30,20 @@ const initialState = [
     }
 ];
 
-export default function articleList(state = initialState, action) {
+export default function article(state = initialState, action) {
     switch (action.type) {
-        case 'add_article':
-            let { title, abs } = getTitleAndAbs(action.content);
-
+        case ADD_ARTICLE:
             return [
-                {
-                    id: '567',
-                    title: title,
-                    abs: abs,
-                    time: '2015.11.21',
-                    url: '/article/:567'
-                },
+                action.data,
                 ...state
             ];
+            break;
+        case RECEIVE_ALL_ARTICLE:
+            return [
+                action.data,
+                ...state
+            ];
+            break;
         default:
             return state;    
     }
