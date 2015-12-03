@@ -2,7 +2,7 @@
 
 // common path for gulp
 let paths = {
-    DIST: './dist',
+    DIST: '../public',
     Entry: './src/js/index.js',
     HTML: './src/index.html',
     SASS: './src/scss',

@@ -2,40 +2,42 @@ import fetch from 'isomorphic-fetch';
 
 export const ADD_ARTICLE = 'add_article';
 
-export function postNewArticle(content) {
+export function addArticle(content) {
     content = encodeURIComponent(content);
+    debugger
 
     return dispatch => {
         return fetch(`/article/add?content=${content}`)
-            .then(response => response.json())
-            .then(article => {
-                dispatch(addArticle(article));
+            .then(req => req.json())
+            .then(res => {
+                debugger
+                res.errno === 0 && dispatch(addArticle(res.data));
             });
     }
 }
     
-export function addArticle(article) {
+function dispatchAddArticle(article) {
     return {
         type: ADD_ARTICLE,
         data: article 
     };
 }
 
-export const RECEIVE_ALL_ARTICLE = 'receive_all_article';
+export const GET_ALL_ARTICLE = 'get_all_article';
 
-export function fetchAllArticle() {
+export function getAllArticle() {
     return dispatch => {
         return fetch('/article/find')
-            .then(response => response.json())
-            .then(articles => {
-                dispatch(receiveAllArticle(articles));
+            .then(req => req.json())
+            .then(ret => {
+                dispatch(dispatchGetAllArticle(ret.data));
             });
     }
 }
 
-export function receiveALlArticle(articles) {
+function dispatchGetAllArticle(articles) {
     return {
-        type: RECEIVE_ALL_ARTICLE,
+        type: GET_ALL_ARTICLE,
         data: articles
     }
 }

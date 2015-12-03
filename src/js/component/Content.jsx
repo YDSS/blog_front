@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchAllArticle } from '../action/articleAction';
+import { getAllArticle } from '../action/articleAction';
 import ListItem from './ListItem.jsx';
 
 class Content extends Component {
@@ -7,15 +7,16 @@ class Content extends Component {
     componentDidMount() {
         const { dispatch } = this.props;
 
-        dispatch(fetchAllArticle());
+        dispatch(getAllArticle());
     }
 
     render() { 
-        const { articleList } = this.state;
+        const { articles } = this.props;
+        // let articles = (this.state && this.state.articles) || []; 
 
         return (
             <div className='content'>
-                {articleList.map(item => 
+                {articles && articles.map(item => 
                     <ListItem data={item} key={item.id} />
                 )}
             </div>

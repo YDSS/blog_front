@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { pushState } from 'redux-router';
 import { rawMarkup } from '../mixin/markup.jsx';
-import * as articleActionCreators from '../action/articleAction';
+import { addArticle } from '../action/articleAction';
 
 class Editor extends Component {
 
@@ -69,7 +69,7 @@ class Editor extends Component {
         let content = refs.textarea.value; 
         
         // add new article
-        dispatch(articleActionCreators.addArticle(content));
+        dispatch(addArticle(content));
         // route to home
         dispatch(pushState(null, '/home'));
     }

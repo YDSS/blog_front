@@ -9,6 +9,8 @@ requireDir('./task');
 
 gulp.task('default', ['build-js', 'build-css', 'copy', 'server', 'watch']);
 
+gulp.task('build', ['build-js', 'build-css', 'copy']);
+
 gulp.task('build-js', ['browserify']);
 
 gulp.task('watch', function () {

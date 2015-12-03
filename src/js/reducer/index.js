@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { routerStateReducer } from 'redux-router';
 import navItem from './navItem';
-import articleList from './article';
+import article from './article';
 
 const rootReducer = combineReducers({
     navItem: navItem,
-    articleList: articleList,
+    articles: article,
     router: routerStateReducer
 });
 
