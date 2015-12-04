@@ -69,9 +69,14 @@ class Editor extends Component {
         let content = refs.textarea.value; 
         
         // add new article
-        dispatch(addArticle(content));
-        // route to home
-        dispatch(pushState(null, '/home'));
+        dispatch(addArticle(content))
+            .then(() => {
+                // route to home
+                dispatch(pushState(null, '/home'));
+            })
+            .catch(err => {
+                console.log(err.message);   
+            });
     }
 }
 

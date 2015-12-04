@@ -3,19 +3,19 @@ import { rawMarkup } from '../mixin/markup.jsx';
 
 class Article extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            content: '## Test Article\n```js\nvar a = 1;\n```'
-        }
-    }
-
     render() {
+        let {articles, params: {id}} = this.props;
+        id = +id.replace(/^\:/, '');
+
+        debugger
+        let article = articles.find(item => {
+            return item.id === id;
+        });
+        
         return (
             <article
                 className='article'
-                dangerouslySetInnerHTML={rawMarkup(this.state.content)}
+                dangerouslySetInnerHTML={rawMarkup(article.content)}
             />
         );
     }

@@ -5,18 +5,20 @@ import ListItem from './ListItem.jsx';
 class Content extends Component {
 
     componentDidMount() {
-        const { dispatch } = this.props;
+        let { dispatch, articles } = this.props;
 
-        dispatch(getAllArticle());
+        // 若articles为空，向服务端请求首屏数据
+        if (!articles || !articles.length) {
+            dispatch(getAllArticle());
+        } 
     }
 
     render() { 
-        const { articles } = this.props;
-        // let articles = (this.state && this.state.articles) || []; 
+        let { articles } = this.props;
 
         return (
             <div className='content'>
-                {articles && articles.map(item => 
+                {articles && articles.slice(0, 10).map(item => 
                     <ListItem data={item} key={item.id} />
                 )}
             </div>

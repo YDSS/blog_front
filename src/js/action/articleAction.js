@@ -11,7 +11,7 @@ export function addArticle(content) {
             .then(req => req.json())
             .then(res => {
                 debugger
-                res.errno === 0 && dispatch(addArticle(res.data));
+                res.errno === 0 && dispatch(dispatchAddArticle(res.data));
             });
     }
 }

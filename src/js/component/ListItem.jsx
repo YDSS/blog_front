@@ -23,7 +23,7 @@ class ListItem extends Component {
                     {data.tags ? tags : null}
                 </div>
                 <p className='abs'>{data.summary}</p>
-                <Link to={`/article/:id=${data.id}`}>前往</Link>
+                <Link to={`/article/:${data.id}`}>前往</Link>
             </div>
         );
     }
