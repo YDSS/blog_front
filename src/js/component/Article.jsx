@@ -4,10 +4,9 @@ import { rawMarkup } from '../mixin/markup.jsx';
 class Article extends Component {
 
     render() {
-        let {articles, params: {id}} = this.props;
-        id = +id.replace(/^\:/, '');
+        let {articles, params} = this.props;
+        let id = +params.id;
 
-        debugger
         let article = articles.find(item => {
             return item.id === id;
         });
@@ -15,7 +14,7 @@ class Article extends Component {
         return (
             <article
                 className='article'
-                dangerouslySetInnerHTML={rawMarkup(article.content)}
+                dangerouslySetInnerHTML={rawMarkup(article.raw)}
             />
         );
     }

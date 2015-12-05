@@ -1,5 +1,6 @@
 @import 'global';
 @import 'flexbox';
+@import 'compass/compass/css3/border-radius';
 
 html, body {
     height: 100%;
@@ -33,4 +34,13 @@ html, body {
     .sidebar {
         width: 100% * $sidebar-width;
     }
+}
+
+pre {
+    overflow-x: auto;
+    padding: 20px;
+    background: url(/img/bg-code.png) top center #fdf6e3;
+    color: #657b83;
+    -webkit-text-size-adjust: none;
+    @include border-radius(5px);
 }

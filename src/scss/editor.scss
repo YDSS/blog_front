@@ -17,16 +17,7 @@
         overflow-y: visible;
         @include box-sizing(border-box);
         @include border-radius(5px);        
-    }
-
-    pre {
-        overflow-x: auto;
-        padding: 20px;
-        background: url(/img/bg-code.png) top center #fdf6e3;
-        color: #657b83;
-        -webkit-text-size-adjust: none;
-        @include border-radius(5px);
-    }
+    } 
 
     .btns {
         @include flexbox;

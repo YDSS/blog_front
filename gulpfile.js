@@ -17,7 +17,7 @@ gulp.task('build-js', ['browserify']);
 
 gulp.task('watch', function () {
     gulp.watch(paths.HTML, ['copy:html']);
-    gulp.watch(paths.SASS + '/**', ['build-sass']);
+    gulp.watch(paths.SASS + '/**', ['sass']);
     gulp.watch(paths.CSS + '/**', ['copy:css']);
     gulp.watch(paths.IMAGES + '/**', ['copy:image']);
 });
