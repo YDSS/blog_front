@@ -4,40 +4,46 @@ export const ADD_ARTICLE = 'add_article';
 
 export function addArticle(content) {
     content = encodeURIComponent(content);
-    debugger
 
     return dispatch => {
         return fetch(`/article/add?content=${content}`)
             .then(req => req.json())
             .then(res => {
-                debugger
                 res.errno === 0 && dispatch(dispatchAddArticle(res.data));
             });
     }
 }
     
-function dispatchAddArticle(article) {
+function dispatchAddArticle(data) {
     return {
         type: ADD_ARTICLE,
-        data: article 
+        data
     };
 }
 
-export const GET_ALL_ARTICLE = 'get_all_article';
+export const GET_ARTICLE_BY_PAGE = 'get_article_by_page';
 
-export function getAllArticle() {
+/**
+ * 取分页数据
+ * 
+ * @param {number} curPage 当前页码
+ * @param {number} pageSize 每页文章数
+ */
+export function getArticleByPage(curPage, pageSize) {
+    let type = 'pagination';
+
     return dispatch => {
-        return fetch('/article/find')
+        return fetch(`/article/find?type=${type}&curPage=${curPage}&pageSize=${pageSize}`)
             .then(req => req.json())
             .then(ret => {
-                dispatch(dispatchGetAllArticle(ret.data));
+                dispatch(dispatchGetArticleByPage(ret.data));
             });
     }
 }
 
-function dispatchGetAllArticle(articles) {
+function dispatchGetArticleByPage(articles) {
     return {
-        type: GET_ALL_ARTICLE,
+        type: GET_ARTICLE_BY_PAGE,
         data: articles
     }
 }

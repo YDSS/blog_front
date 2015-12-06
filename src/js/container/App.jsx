@@ -34,7 +34,7 @@ function mapStateToProps(state) {
         // must be return as name router
         router: state.router,
         navItem: state.navItem,
-        articles: state.articles
+        article: state.article
     }
 }
 

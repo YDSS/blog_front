@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
-import { getAllArticle } from '../action/articleAction';
+import { getArticleByPage } from '../action/articleAction';
 import ListItem from './ListItem.jsx';
 
 class Content extends Component {
 
     componentDidMount() {
-        let { dispatch, articles } = this.props;
+        let { dispatch, article: {list, pageSize} } = this.props;
 
-        // 若articles为空，向服务端请求首屏数据
-        if (!articles || !articles.length) {
-            dispatch(getAllArticle());
+        // 若article.list为空，向服务端请求首屏数据
+        if (!list || !list.length) {
+            dispatch(getArticleByPage(0, pageSize));
         } 
     }
 
     render() { 
-        let { articles } = this.props;
+        let { article: {list, pageSize} } = this.props;
 
         return (
             <div className='content'>
-                {articles && articles.slice(0, 10).map(item => 
+                {list && list.slice(0, pageSize).map(item => 
                     <ListItem data={item} key={item.id} />
                 )}
             </div>

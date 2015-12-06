@@ -19,7 +19,8 @@ class ListItem extends Component {
             <div className='list-item'>
                 <h1 className='title'>{data.title}</h1>
                 <div className='info-bar'>
-                    <span className='time'>{data.created_at}</span>
+                    created at: <span className='time'>{new Date(data.createdAt).toString()}</span>
+                    updated at: <span className='time'>{new Date(data.updatedAt).toString()}</span>
                     {data.tags ? tags : null}
                 </div>
                 <p className='abs'>{data.summary}</p>

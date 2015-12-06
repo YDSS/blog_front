@@ -5,7 +5,7 @@ import article from './article';
 
 const rootReducer = combineReducers({
     navItem: navItem,
-    articles: article,
+    article: article,
     router: routerStateReducer
 });
 

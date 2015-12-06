@@ -1,21 +1,38 @@
 import { 
     ADD_ARTICLE, 
-    GET_ALL_ARTICLE
+    GET_ARTICLE_BY_PAGE 
 } from '../action/articleAction';
 
-export default function article(state = [], action) {
+let initialState = {
+    // 当前分页的页码
+    curPage: 0,
+    // 每页文章数
+    pageSize: 10,
+    // 文章总数
+    pageSum: 0,
+    // 文章列表
+    list: []
+};
+
+export default function article(state = initialState, action) {
     switch (action.type) {
         case ADD_ARTICLE:
-            return [
-                action.data,
-                ...state
-            ];
+            return Object.assign({}, state, {
+                pageSum: ++state.pageSum,
+                list: [
+                    action.data,
+                    ...state.list
+                ]
+            });
             break;
-        case GET_ALL_ARTICLE:
-            return [
-                ...action.data,
-                ...state
-            ];
+        case GET_ARTICLE_BY_PAGE:
+            return Object.assign({}, state, {
+                pageSum: action.data.pageSum,
+                list: [
+                    ...state.list,
+                    ...action.data.list
+                ]
+            });
             break;
         default:
             return state;    
