@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { dispatch } from 'redux';
+import { paginate } from '../action/articleAction';
 
 class Pagination extends Component {
 
@@ -7,15 +8,21 @@ class Pagination extends Component {
         super(props);
 
         this.state = {
-            curPage: 1,
-            maxPage: 7
+            curPage: 1
         };
     }
 
+    /**
+     * 生成页面序列，生成规则如下：
+     *  如果总页数大于maxPage，则取前maxPage-1页 + ... + 最后一页
+     *  若小余等于maxPage，则显示全部
+     *
+     *  @param {number} pageSum 总页数
+     *  @return {Array} 生成的页码序列
+     */
     createPages(pageSum) {
         let pages = [];
-        let maxPage = this.state.maxPage;
-        // 如果总页数大于maxPage，则取前maxPage-1页 + ... + 最后一页
+        let { maxPage } = this.props;
         if (pageSum > maxPage) {
             for (let i = 1; i < maxPage; i++) {
                 pages.push(i);
@@ -31,18 +38,31 @@ class Pagination extends Component {
         return pages;
     }
 
+    onPageClick(ev) {
+        debugger
+        let { dispatch } = this.props;
+        let $page = ev.currentTarget;
+        let pageNum = +$page.textContent;
+
+        dispatch(paginate(pageNum)); 
+    }
+
     render() {
-        let { article: {pageSum} } = this.props;
-        let pages = createPages(pageSum);
+        let { pageSum } = this.props;
+        if (typeof pageSum !== 'number' || pageSum < 1) {
+            return null;
+        }
+
+        let pages = this.createPages(pageSum);
 
         return (
             <ul className="pagination">
-                <li className="first" ref="first">&lt;&lt;</li>
-                <li className="prev" ref="prev">&lt;</li>
-                {pages.map(item => 
-                   <li className="page" key={item} onClick={this.onPageClick.bind(this)}>item</li>)}
-                <li className="next" ref="next">&gt;</li>
-                <li className="last" ref="last">&gt;&gt;</li>
+                <li className="first fa fa-angle-double-left" ref="first"></li>
+                <li className="prev fa fa-angle-left" ref="prev"></li>
+                {pages && pages.map(item => 
+                    <li className="page" key={item} onClick={/*去掉有...的btn*/item !== '...' && this.onPageClick.bind(this)}>{item}</li>)}
+                <li className="next fa fa-angle-right" ref="next"></li>
+                <li className="last fa fa-angle-double-right" ref="last"></li>
             </ul>
         );
     }

@@ -1,0 +1,50 @@
+@import '../scss/flexbox';
+
+$page-h: 35px;
+
+.pagination {
+    @include flexbox;
+    @include justify-content(flex-end);
+
+    margin: 20px 40px 20px 0;
+    padding: 0;
+    border-radius: 5px;
+    list-style-type: none;
+
+    > li {
+        @include flex(1);
+
+        max-width: 35px;
+        height: $page-h;
+        margin-left: -1px;
+        color: #2879d0;
+        background-color: #fff;
+        text-align: center;
+
+        &:hover,
+        &:active {
+            background-color: #428bca;
+            color: #fff;
+            cursor: pointer;
+        }
+        
+        &:nth-last-child(4) {
+            &:hover,
+            &:active {
+                background-color: #fff;
+                color: #2879d0;
+                cursor: default;
+            }
+        }
+    }
+
+    .page {
+        font: 500 14px/#{$page-h} normal;
+    }
+
+    .fa {
+        line-height: ($page-h - 5px);
+        font-size: 24px;
+    }
+
+}

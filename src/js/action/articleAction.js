@@ -47,3 +47,12 @@ function dispatchGetArticleByPage(articles) {
         data: articles
     }
 }
+
+export const PAGINATE = 'paginate';
+
+export function paginate(pageNum) {
+    return {
+        type: PAGINATE,
+        data: pageNum
+    }
+}

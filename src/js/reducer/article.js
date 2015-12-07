@@ -1,11 +1,12 @@
 import { 
     ADD_ARTICLE, 
-    GET_ARTICLE_BY_PAGE 
+    GET_ARTICLE_BY_PAGE,
+    PAGINATE
 } from '../action/articleAction';
 
 let initialState = {
     // 当前分页的页码
-    curPage: 0,
+    curPage: 1,
     // 每页文章数
     pageSize: 10,
     // 文章总数
@@ -32,6 +33,11 @@ export default function article(state = initialState, action) {
                     ...state.list,
                     ...action.data.list
                 ]
+            });
+            break;
+        case PAGINATE:
+            return Object.assign({}, state, {
+                curPage: action.data
             });
             break;
         default:

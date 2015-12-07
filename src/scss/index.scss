@@ -15,9 +15,8 @@ html, body {
     height: 100%;
 
     .content {
-        width: 100% * $content-width;
-        margin-left: 100% * $sidebar-width;
-        padding-left: 30px;
+        width: 85%;
+        margin-left: 15%;
     }
 
     .editor {
