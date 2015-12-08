@@ -5,6 +5,13 @@ import Pagination from './Pagination.jsx';
 
 class Content extends Component {
 
+    /**
+     * 获取翻页后的数据，如果没有缓存则请求后端获取
+     */
+    fetchArticlesIfNeed() {
+        
+    }
+
     componentDidMount() {
         let { dispatch, article: {list, pageSize} } = this.props;
 
@@ -15,7 +22,7 @@ class Content extends Component {
     }
 
     render() { 
-        let { article: {list, pageSize, pageSum}, dispatch } = this.props;
+        let { article: {list, pageSize, articleSum}, dispatch } = this.props;
 
         return (
             <div className='content'>
@@ -24,7 +31,7 @@ class Content extends Component {
                         <ListItem data={item} key={item.id} />
                     )}
                 </div>
-                <Pagination maxPage={7} pageSum={pageSum} dispatch={dispatch} /> 
+                <Pagination maxPage={7} articleSum={articleSum} pageSize={pageSize} dispatch={dispatch} /> 
             </div>
         );
     }
