@@ -1,37 +1,72 @@
 import React, { Component } from 'react';
-import { getArticleByPage } from '../action/articleAction';
+import { getArticleByPage, dispatchGetArticleByPage } from '../action/articleAction';
 import ListItem from './ListItem.jsx';
 import Pagination from './Pagination.jsx';
 
 class Content extends Component {
 
-    /**
-     * 获取翻页后的数据，如果没有缓存则请求后端获取
-     */
-    fetchArticlesIfNeed() {
-        
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            // 总页数，通过计算pageSize和articleSum得到
+            pageSum: 1
+        };
     }
 
     componentDidMount() {
-        let { dispatch, article: {list, pageSize} } = this.props;
+        // 装载Content时直接取第一页的数据
+        this.fetchPageListIfNeeded(1);
+    }
 
-        // 若article.list为空，向服务端请求首屏数据
-        if (!list || !list.length) {
-            dispatch(getArticleByPage(1, pageSize));
-        } 
+    componentWillReceiveProps(nextProps) {
+        let {article: {pageSize, articleSum}} = nextProps;
+        let oldArticleSum = this.props.articleSum;
+
+        // 更新总页数
+        if (articleSum !== oldArticleSum 
+            &&  articleSum > 0) 
+        {
+            this.setState({
+                pageSum: Math.ceil(articleSum / pageSize)
+            });
+        }
+    }
+
+    /**
+     * 获取翻页后的数据，如果没有缓存则请求后端获取
+     *
+     * @param {number} curPage 当前页码
+     */
+    fetchPageListIfNeeded(curPage) {
+        let {dispatch, article: {list, pageSize}} = this.props;
+        let curPageList = list.get(curPage);
+
+        if (!curPageList) {
+            dispatch(getArticleByPage(curPage, pageSize));
+        }
+        else {
+            dispatch(dispatchGetArticleByPage(curPage));
+        }
     }
 
     render() { 
-        let { article: {list, pageSize, articleSum}, dispatch } = this.props;
+        let { article: {list, curPage, pageSize, articleSum}, dispatch } = this.props;
+        let curPageList = list.get(curPage);
 
         return (
             <div className='content'>
                 <div className='list-group'>
-                    {list && list.slice(0, pageSize).map(item => 
+                    {curPageList && curPageList.slice(0, pageSize).map(item => 
                         <ListItem data={item} key={item.id} />
                     )}
                 </div>
-                <Pagination maxPage={7} articleSum={articleSum} pageSize={pageSize} dispatch={dispatch} /> 
+                <Pagination 
+                    maxPage={7} 
+                    pageSum={this.state.pageSum} 
+                    paginate={this.fetchPageListIfNeeded.bind(this)}
+                    curPage={curPage}
+                /> 
             </div>
         );
     }

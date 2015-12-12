@@ -1,30 +1,27 @@
 import React, { Component } from 'react';
 import { dispatch } from 'redux';
-import { paginate } from '../action/articleAction';
 
+/**
+ * 翻页组件
+ *
+ * @props {number} maxPage 最多可以显示多少个页码
+ * @props {number} pageSum 当前总页数
+ * @props {Function} paginate 翻页函数
+ * @props {number} curPage 当前页码
+ */
 class Pagination extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            curPage: 1
-        };
-    }
 
     /**
      * 生成页面序列，生成规则如下：
-     *  如果总页数大于maxPage，则取前maxPage-1页 + ... + 最后一页
+     *  如果总页数pageSum大于maxPage，则取前maxPage-1页 + ... + 最后一页
      *  若小余等于maxPage，则显示全部
      *
-     *  @param {number} articleSum 总页数
      *  @return {Array} 生成的页码序列
      */
-    createPageNums(articleSum) {
+    createPageNums() {
+        let {maxPage, pageSum} = this.props;
         let pageNums = [];
-        let { maxPage, pageSize } = this.props;
-        // 总页数
-        let pageSum = Math.ceil(articleSum / pageSize);
+
         if (pageSum > maxPage) {
             for (let i = 1; i < maxPage; i++) {
                 pageNums.push(i);
@@ -44,11 +41,10 @@ class Pagination extends Component {
         let $page = ev.currentTarget;
         let pageNum = +$page.textContent;
 
-        let { curPage } = this.state;
+        let {curPage, paginate} = this.props;
         if (curPage === pageNum ) return;
         
-        let { dispatch } = this.props;
-        dispatch(paginate(pageNum)); 
+        paginate(pageNum);
     }
 
     /**
@@ -57,7 +53,7 @@ class Pagination extends Component {
      * @param {number|string} pageNum 页码
      */
     createPageClass(pageNum) {
-        let { curPage } = this.state;
+        let { curPage } = this.props;
         // 如页码为... 则不可点
         let banItemText = '...';
         let pageClass = ['page'];
@@ -69,13 +65,8 @@ class Pagination extends Component {
     } 
 
     render() {
-        let { articleSum } = this.props;
-        if (typeof articleSum !== 'number' || articleSum < 1) {
-            return null;
-        }
-
-        let { curPage } = this.state;
-        let pageNums = this.createPageNums(articleSum);
+        let { curPage} = this.props;
+        let pageNums = this.createPageNums();
 
         return (
             <ul className="pagination">
@@ -85,7 +76,8 @@ class Pagination extends Component {
                     */
                     style={{ display: (curPage === 1 ? 'none' : 'block') }}
                     className="first fa fa-angle-double-left" 
-                    ref="first"></li>
+                    ref="first"
+                    ></li>
                 <li 
                     style={{ display: (curPage === 1 ? 'none' : 'block') }}
                     className="prev fa fa-angle-left" 
