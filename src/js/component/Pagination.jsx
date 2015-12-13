@@ -47,6 +47,30 @@ class Pagination extends Component {
         paginate(pageNum);
     }
 
+    onFirstClick() {
+        let {paginate} = this.props;
+
+        paginate(1);
+    }
+
+    onPrevClick() {
+        let {paginate, curPage} = this.props;
+
+        paginate(curPage - 1);
+    }
+
+    onNextClick() {
+        let {paginate, curPage} = this.props;
+
+        paginate(curPage + 1);
+    }
+
+    onLastClick() {
+        let {paginate, pageSum} = this.props;
+
+        paginate(pageSum);
+    }
+
     /**
      * 生成页码的className
      *
@@ -65,7 +89,7 @@ class Pagination extends Component {
     } 
 
     render() {
-        let { curPage} = this.props;
+        let {curPage, pageSum, paginate} = this.props;
         let pageNums = this.createPageNums();
 
         return (
@@ -77,11 +101,14 @@ class Pagination extends Component {
                     style={{ display: (curPage === 1 ? 'none' : 'block') }}
                     className="first fa fa-angle-double-left" 
                     ref="first"
+                    onClick={this.onFirstClick.bind(this)}
                     ></li>
                 <li 
                     style={{ display: (curPage === 1 ? 'none' : 'block') }}
                     className="prev fa fa-angle-left" 
-                    ref="prev"></li>
+                    ref="prev"
+                    onClick={this.onPrevClick.bind(this)}
+                ></li>
                 {pageNums && pageNums.map(item => 
                     <li 
                         className={this.createPageClass(item)} 
@@ -94,11 +121,15 @@ class Pagination extends Component {
                     */
                     style={{ display: (curPage === pageNums[pageNums.length - 1] ? 'none' : 'block') }}
                     className="next fa fa-angle-right" 
-                    ref="next"></li>
+                    ref="next"
+                    onClick={this.onNextClick.bind(this)}
+                ></li>
                 <li 
                     style={{ display: (curPage === pageNums[pageNums.length - 1] ? 'none' : 'block') }}
                     className="last fa fa-angle-double-right" 
-                    ref="last"></li>
+                    ref="last"
+                    onClick={this.onLastClick.bind(this)}
+                ></li>
             </ul>
         );
     }

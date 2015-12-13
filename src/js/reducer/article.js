@@ -1,7 +1,7 @@
 import { 
     ADD_ARTICLE, 
-    GET_ARTICLE_BY_PAGE,
-    PAGINATE
+    FETCH_ARTICLE_BY_PAGE,
+    UPDATE_CURRENT_PAGE
 } from '../action/articleAction';
 
 let initialState = {
@@ -28,27 +28,25 @@ export default function article(state = initialState, action) {
                 list 
             });
             break;
-        case GET_ARTICLE_BY_PAGE:
-            let {curPage, pageList, articleSum} = action.data;
-            let newData = {};
-
-            // 当前cache中无当前页列表数据,则存在cache中
+        case FETCH_ARTICLE_BY_PAGE:
+            var {curPage, pageList, articleSum} = action.data;
             if (pageList) {
                 // 将当前页的数据按 curPage: list 的键值对格式放到state中
                 list.set(curPage, pageList);
-
-                newData = {
-                    curPage,
-                    articleSum,
-                    list
-                };
-            }
-            else {
-                newData = { curPage };
             }
 
-            return Object.assign({}, state, newData);
+            return Object.assign({}, state, {
+                curPage,
+                articleSum,
+                list
+            });
             break;
+        case UPDATE_CURRENT_PAGE:
+            var {curPage} = action.data; 
+
+            return Object.assign({}, state, {
+                curPage
+            });
         default:
             return state;    
     }
