@@ -4,10 +4,11 @@ import { rawMarkup } from '../mixin/markup.jsx';
 class Article extends Component {
 
     render() {
-        let { article: {list}, params } = this.props;
+        let { article: {list, curPage}, params } = this.props;
         let id = +params.id;
+        let curPageList = list.get(curPage);
 
-        let theArticle = list.find(item => {
+        let theArticle = curPageList.find(item => {
             return item.id === id;
         });
         

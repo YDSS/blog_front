@@ -20,9 +20,11 @@ class App extends Component {
         const { children,  navItem, ...other } = this.props;
 
         return (
-            <div className='app' id='app'>
+            <div id='app'>
                 <Sidebar navItem={navItem} />
-                {children && this.renderChildren(other)}
+                <div className="body">
+                    {children && this.renderChildren(other)}
+                </div>
             </div>
         );
     }

@@ -1,45 +1,36 @@
 @import 'global';
 @import 'flexbox';
-@import 'compass/compass/css3/border-radius';
 
 html, body {
     height: 100%;
 }
 
-.wrap {
-    height: 100%;
-}
-
-.app {
+.wrapper {
     width: 100%;
     height: 100%;
 
-    .content {
-        width: 85%;
-        margin-left: 15%;
-    }
+    .body {
+        margin-left: $sidebar-large-w;
 
-    .editor {
-        width: 100% * $content-width;
-        margin-left: 100% * $sidebar-width;
-    }
-    
-    .article {
-        width: 100% * $content-width;
-        margin-left: 100% * $sidebar-width;
-        padding-left: 30px;
+        @media screen and (max-width: #{$breakpoint-middle}) {
+            margin-left: $sidebar-middle-w;
+        }
+
+        @media screen and (max-width: #{$breakpoint-phone}) {
+            margin-left: 0;
+        }
     }
 
     .sidebar {
-        width: 100% * $sidebar-width;
+        width: $sidebar-large-w;
+
+        @media screen and (max-width: #{$breakpoint-middle}) {
+            width: $sidebar-middle-w;
+        }
+
+        @media screen and (max-width: #{$breakpoint-phone}) {
+            display: none;
+        }
     }
 }
 
-pre {
-    overflow-x: auto;
-    padding: 20px;
-    background: url(/img/bg-code.png) top center #fdf6e3;
-    color: #657b83;
-    -webkit-text-size-adjust: none;
-    @include border-radius(5px);
-}
