@@ -2,12 +2,18 @@
 
 // common path for gulp
 let paths = {
-    DIST: './dist',
+    DIST: '../blog_back/public',
+    // DIST: './dist',
     Entry: './src/js/index.js',
     HTML: './src/index.html',
-    SASS: './src/scss',
+    SASS: {
+        // 页面级样式文件
+        view: './src/scss', 
+        // 组件级样式文件
+        component: './src/js/component'
+    },
     CSS: './src/css',
-    IMAGES: './src/img/**'
+    IMAGES: './src/img'
 };
 
 exports.paths = paths;

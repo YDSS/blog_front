@@ -1,2 +1,7 @@
-$sidebar-width: .125;
-$content-width: .875;
+/* media break point  */
+$breakpoint-middle: 800px;
+$breakpoint-phone: 440px;
+
+/* 侧边栏与主体的适配宽度 */
+$sidebar-large-w: 270px;
+$sidebar-middle-w: 180px;

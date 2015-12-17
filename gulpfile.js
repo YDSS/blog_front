@@ -9,11 +9,15 @@ requireDir('./task');
 
 gulp.task('default', ['build-js', 'build-css', 'copy', 'server', 'watch']);
 
+gulp.task('build:back', ['build-js', 'build-css', 'copy', 'watch']);
+
+gulp.task('build', ['build-js', 'build-css', 'copy']);
+
 gulp.task('build-js', ['browserify']);
 
 gulp.task('watch', function () {
     gulp.watch(paths.HTML, ['copy:html']);
-    gulp.watch(paths.SASS + '/**', ['build-sass']);
+    gulp.watch(paths.SASS + '/**', ['sass']);
     gulp.watch(paths.CSS + '/**', ['copy:css']);
     gulp.watch(paths.IMAGES + '/**', ['copy:image']);
 });
@@ -28,7 +32,7 @@ gulp.task('copy:css', function () {
 });
 
 gulp.task('copy:image', function () {
-    gulp.src(paths.IMAGES)
+    gulp.src(paths.IMAGES + '/**')
         .pipe(gulp.dest(path.join(paths.DIST, 'img')));
 }); 
 

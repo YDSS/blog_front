@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import Sidebar from '../component/Sidebar.jsx';
+import Sidebar from '../component/sidebar/Sidebar.jsx';
 
 class App extends Component {
 
@@ -20,9 +20,11 @@ class App extends Component {
         const { children,  navItem, ...other } = this.props;
 
         return (
-            <div className='app' id='app'>
+            <div id='app'>
                 <Sidebar navItem={navItem} />
-                {children && this.renderChildren(other)}
+                <div className="body">
+                    {children && this.renderChildren(other)}
+                </div>
             </div>
         );
     }
@@ -34,7 +36,7 @@ function mapStateToProps(state) {
         // must be return as name router
         router: state.router,
         navItem: state.navItem,
-        articleList: state.articleList
+        article: state.article
     }
 }
 

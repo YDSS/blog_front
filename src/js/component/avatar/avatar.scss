@@ -1,0 +1,21 @@
+@import 'global';
+
+$img-h: 120px;
+
+.avatar {
+    width: 100%;
+    text-align: center;
+
+    img {
+        width: 100%;
+        max-width: $img-h;
+        border-radius: 25%;
+        box-shadow: 0 0 3px 2px #fefefe;
+    }
+
+    p {
+        font: 700 16px normal;
+        color: #fff;
+        text-align: center;
+    }
+}

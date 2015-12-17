@@ -1,0 +1,59 @@
+@import 'compass/css3/border-radius';
+@import 'compass/css3/box-sizing';
+@import 'compass/css3/transition';
+@import 'mixin/flexbox';
+
+.editor {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+
+    textarea {
+        width: 100%;
+        min-height: 600px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        overflow-x: scroll;
+        overflow-y: visible;
+        @include box-sizing(border-box);
+        @include border-radius(5px);        
+    } 
+
+    .btns {
+        @include flexbox;
+    }
+        
+    .btn {
+        $fc: #fff;
+        $bg-c: #00a1cb;
+        $bg-c-hover: #00b5e5;
+        $bg-c-active: #1495b7;
+
+        @include flex(1);
+        height: 32px;
+        padding: 0 25.6px;
+        margin-top: 10px;
+        margin-right: 20px;
+        font: 300 16px/30px normal;
+        text-decoration: none;
+        text-align: center;
+        border-radius: 50px;
+        background: $bg-c;
+        cursor: pointer;
+        color: $fc;
+        vertical-align: middle;
+        @include transition(background .3s linear);
+
+        &:hover {
+            background: $bg-c-hover;
+        }
+
+        &:active {
+            background: $bg-c-active;    
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}

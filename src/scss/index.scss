@@ -1,36 +1,36 @@
 @import 'global';
-@import 'flexbox';
+@import 'mixin/flexbox';
 
 html, body {
     height: 100%;
 }
 
-.wrap {
-    height: 100%;
-}
-
-.app {
+.wrapper {
     width: 100%;
     height: 100%;
 
-    .content {
-        width: 100% * $content-width;
-        margin-left: 100% * $sidebar-width;
-        padding-left: 30px;
-    }
+    .body {
+        margin-left: $sidebar-large-w;
 
-    .editor {
-        width: 100% * $content-width;
-        margin-left: 100% * $sidebar-width;
-    }
-    
-    .article {
-        width: 100% * $content-width;
-        margin-left: 100% * $sidebar-width;
-        padding-left: 30px;
+        @media screen and (max-width: #{$breakpoint-middle}) {
+            margin-left: $sidebar-middle-w;
+        }
+
+        @media screen and (max-width: #{$breakpoint-phone}) {
+            margin-left: 0;
+        }
     }
 
     .sidebar {
-        width: 100% * $sidebar-width;
+        width: $sidebar-large-w;
+
+        @media screen and (max-width: #{$breakpoint-middle}) {
+            width: $sidebar-middle-w;
+        }
+
+        @media screen and (max-width: #{$breakpoint-phone}) {
+            display: none;
+        }
     }
 }
+

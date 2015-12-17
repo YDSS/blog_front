@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import App from './container/App.jsx';
-import Content from './component/Content.jsx';
-import Editor from './component/Editor.jsx';
-import Article from './component/Article.jsx';
+import Content from './component/content/Content.jsx';
+import Editor from './component/editor/Editor.jsx';
+import Article from './component/article/Article.jsx';
 
 // normal react-router configure
 let routes = (
