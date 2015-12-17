@@ -32,7 +32,7 @@ gulp.task('copy:css', function () {
 });
 
 gulp.task('copy:image', function () {
-    gulp.src(paths.IMAGES)
+    gulp.src(paths.IMAGES + '/**')
         .pipe(gulp.dest(path.join(paths.DIST, 'img')));
 }); 
 
