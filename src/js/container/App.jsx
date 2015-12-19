@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Sidebar from '../component/sidebar/Sidebar.jsx';
+import Header from '../component/header/Header.jsx';
 
 class App extends Component {
 
@@ -21,6 +22,7 @@ class App extends Component {
 
         return (
             <div id='app'>
+                <Header />
                 <Sidebar navItem={navItem} />
                 <div className="body">
                     {children && this.renderChildren(other)}

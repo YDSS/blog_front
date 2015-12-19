@@ -1,0 +1,65 @@
+@import 'global';
+@import 'compass/css3';
+@import 'mixin/flexbox';
+
+$header-h: 50px;
+
+.header {
+    display: none;
+    width: 100%;
+    height: $header-h;
+    padding: 0 20px;
+    @include box-sizing(border-box); 
+    border-bottom: 1px solid #ccc;
+    @include box-shadow(0 0 10px 1px #ccc);
+
+    @media screen and (max-width: $breakpoint-phone) {
+        display: block;
+    }
+
+    .left {
+        @include flexbox;
+        @include flex(1);
+        @include align-items(center);
+        float: left;
+        height: 100%;
+
+        > i {
+            padding: 10px {
+                left: 0;
+            };
+            font-size: 30px;
+            color: #cecece;
+        }
+    }
+
+    .right {
+        @include flexbox;
+        @include flex(1);
+        @include align-items(center);
+        float: right;
+        height: 100%;
+
+        $thumbnail-w: 30px;
+        > i {
+            display: block;
+            width: $thumbnail-w;
+            height: $thumbnail-w;
+            background: url(/img/avatar.png) no-repeat;
+            background-size: $thumbnail-w auto;
+            @include border-radius(20%);
+        }
+    }
+}
+
+@media screen and (max-width: #{$breakpoint-phone}) {
+    /* 显隐侧边栏动画 */
+    .wrapper {
+        @include transform(translate3d(0, 0, 0));
+        @include transition(transform .5s ease);
+    }
+
+    .wrapper.move-right {
+        @include transform(translate3d($sidebar-phone-w, 0, 0));
+    }
+}

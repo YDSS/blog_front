@@ -21,8 +21,8 @@ gulp.task('sass', () => {
         paths.SASS.view + '/**/*.scss',
         paths.SASS.component + '/**/*.scss'
     ])
-        .pipe(sourcemap.init())
         .pipe(sass(nodeSassOption).on('error', sass.logError))
+        .pipe(sourcemap.init())
         .pipe(concat('bundle.css'))
         .pipe(sourcemap.write())
         .pipe(gulp.dest(path.join(paths.DIST, 'css')));

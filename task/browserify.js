@@ -21,6 +21,7 @@ b.transform('babelify', {
     // presets of babel, see http://babeljs.io/docs/plugins for more
     presets: [
         'es2015',
+        'stage-1',
         'stage-2',
         'react'
     ]

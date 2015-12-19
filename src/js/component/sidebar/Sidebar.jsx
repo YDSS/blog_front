@@ -4,23 +4,24 @@ import Navbar from '../navbar/Navbar.jsx';
 
 class Sidebar extends Component {
 
+    static defaultProps = {
+        // 我的用户名
+        author: 'YDSS',
+        // 头像url
+        avatar: '/img/avatar.png'
+    }
+    
     constructor(props) {
         super(props);
-        this.state = {
-            avatar: {
-                title: 'YDSS',
-                img: '/img/avatar.png'
-            }
-        };
     }
 
     render() {
-        const { navItem } = this.props;
+        const { navItem, author, avatar } = this.props;
 
         return (
             <div className='sidebar'>
                 <div className='bg'></div>
-                <Avatar img={this.state.avatar.img} title={this.state.avatar.title} />
+                <Avatar img={avatar} title={author} />
                 <Navbar navItem={navItem} />
             </div>
         );

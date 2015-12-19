@@ -16,9 +16,10 @@ $page-h: 35px;
 
         max-width: 35px;
         height: $page-h;
+        margin-right: 5px;
         color: #2879d0;
         background-color: #fff;
-        @include border-radius(5px);
+        @include border-radius(50%);
         text-align: center;
 
         &:hover,

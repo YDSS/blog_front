@@ -1,4 +1,6 @@
-@import 'compass/typography';
+@import 'global';
+@import 'compass/css3';
+@import 'mixin/flexbox';
 
 .list-item {
     margin-bottom: 10px;
@@ -6,6 +8,9 @@
     border-bottom: 1px solid #eee;
 
     .title {
+        max-height: 96px;
+        overflow: hidden;
+        text-overflow: ellipsis;
         margin-bottom: 10px;
     }
 
@@ -21,8 +26,6 @@
     .tags {
         $tag-color: #ccc;
         $border-color: #666;
-
-        @include clearfix;
 
         margin-top: 5px;
 
@@ -42,8 +45,22 @@
         margin-bottom: 10px;
     }
 
-    a {
-        @include hover-link;
+    .access-bar {
+        @include flexbox;
+        @include justify-content(flex-end);
+
+        a {
+            padding: 4px 8px;
+            color: $blue;
+            text-decoration: none;
+
+            &:hover,
+            &:active {
+                color: #fff;
+                background-color: $blue;
+                @include border-radius(20px);
+            }
+        }
     }
 }
 

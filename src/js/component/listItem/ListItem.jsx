@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import moment from 'moment';
 
 class ListItem extends Component {
 
@@ -15,16 +16,22 @@ class ListItem extends Component {
             );
         }
 
+        // 更新时间和创建时间都是mysql Date类型
+        let {updatedAt} = data;
+        let formatPattern = 'DD MMMM, YYYY';
+        let updatedAtFormat = moment(new Date(updatedAt)).format(formatPattern);
+
         return (
             <div className='list-item'>
                 <h1 className='title'>{data.title}</h1>
                 <div className='info-bar'>
-                    created at: <span className='time'>{new Date(data.createdAt).toString()}</span>
-                    updated at: <span className='time'>{new Date(data.updatedAt).toString()}</span>
+                    <span className='time'>{updatedAtFormat}</span>
                     {data.tags ? tags : null}
                 </div>
                 <p className='abs'>{data.summary}</p>
-                <Link to={`/article/${data.id}`}>前往</Link>
+                <div className='access-bar'>
+                    <Link to={`/article/${data.id}`}>前往</Link>
+                </div>
             </div>
         );
     }
