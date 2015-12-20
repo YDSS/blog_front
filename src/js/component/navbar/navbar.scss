@@ -8,9 +8,11 @@
     @include align-items(center);
 
     .item {
-        width: 82px;
+        @include flexbox;
+        width: 90px;
         margin-bottom: 30px;
-        font: 700 16px/20px normal;
+        font-size: 16px;
+        line-height: 20px;
         color: #fff;
         text-decoration: none;
         @include transition(transform .5s ease);
@@ -19,9 +21,14 @@
             @include transform(translate3d(10px, 0, 0));
         }
 
-        i {
+        > i {
+            @include flex(1);
             font-size: 20px;
             margin-right: 10px;
+        }
+
+        .nav-title {
+            @include flex(2);
         }
 
         @media screen and (max-width: #{$breakpoint-phone}) {

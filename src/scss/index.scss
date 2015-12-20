@@ -12,7 +12,7 @@ html, body {
     .body {
         margin-left: $sidebar-pc-w;
 
-        @media screen and (max-width: #{$breakpoint-phone}) {
+        @media screen and (max-width: $breakpoint-phone) {
             margin-left: 0;
         }
     }

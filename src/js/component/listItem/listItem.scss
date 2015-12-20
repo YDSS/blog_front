@@ -8,14 +8,14 @@
     border-bottom: 1px solid #eee;
 
     .title {
-        max-height: 96px;
+        max-height: 114px;
         overflow: hidden;
         text-overflow: ellipsis;
-        margin-bottom: 10px;
     }
 
     .info-bar {
-        font: 500 14px/20px normal;
+        font-size: 14px;
+        line-height: 20px;
         color: #333;
 
         .time {
@@ -40,7 +40,8 @@
     }
 
     .abs {
-        font: 500 20px/28px normal;
+        font-size: 20px;
+        line-height: 28px;
         color: #666;
         margin-bottom: 10px;
     }

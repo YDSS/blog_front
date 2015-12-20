@@ -2,8 +2,8 @@
 
 // common path for gulp
 let paths = {
-    DIST: '../blog_back/public',
-    // DIST: './dist',
+    // DIST: '../blog_back/public',
+    DIST: './dist',
     Entry: './src/js/index.js',
     HTML: './src/index.html',
     SASS: {
@@ -13,7 +13,10 @@ let paths = {
         component: './src/js/component'
     },
     CSS: './src/css',
-    IMAGES: './src/img'
+    IMAGE: './src/img',
+    FONT: './src/font',
+    // 静态资源md5后缀映射表
+    MAP: './dist/map'
 };
 
 exports.paths = paths;

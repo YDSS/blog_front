@@ -10,13 +10,27 @@ class Navbar extends Component {
     render() {
         let createItem = (item, index) => {
             let iconClass = 'fa fa-' + item.icon;
+            let $item;
 
-            return (
-                <Link className='item' to={item.url} key={index + item.name}>
-                    <i className={iconClass}/>
-                    <span className="nav-title">{item.name}</span>
-                </Link>
-            );
+            // 非router路由不能使用Link标签
+            if (item.name.toLowerCase() === 'github') {
+                $item = (
+                    <a className='item' href={item.url} key={index + item.name}>
+                        <i className={iconClass}/>
+                        <span className="nav-title">{item.name}</span>
+                    </a>
+                );
+            }
+            else {
+                $item = (
+                    <Link className='item' to={item.url} key={index + item.name}>
+                        <i className={iconClass}/>
+                        <span className="nav-title">{item.name}</span>
+                    </Link>
+                );
+            }
+
+            return $item;
         };
         const { navItem } = this.props;
 

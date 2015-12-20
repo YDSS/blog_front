@@ -20,9 +20,9 @@ const initialState = [
         url: '/about'
     },
     {
-        name: 'Github',
+        name: 'GITHUB',
         icon: 'github',
-        url: '//github.com/YDSS'
+        url: 'http://github.com/YDSS'
     }
 ];
 
