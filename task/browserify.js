@@ -38,10 +38,10 @@ function bundle() {
         .pipe(source('bundle.js'));
 
     if (isDev) {
-        stream.pipe(gulp.dest(path.join(paths.DIST, 'js')));
+        return stream.pipe(gulp.dest(path.join(paths.DIST, 'js')));
     }
     else {
-        stream
+        return stream
             // 先将stream转成vinyl buffer，uglify才能进行压缩
             // issue: http://stackoverflow.com/questions/24992980/how-to-uglify-output-with-browserify-in-gulp
             .pipe(buffer())
@@ -69,5 +69,5 @@ b.on('log', msg => {
 });
 
 gulp.task('browserify', () => {
-    bundle();
+    return bundle();
 });

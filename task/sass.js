@@ -28,14 +28,14 @@ gulp.task('sass', () => {
         .pipe(sass(nodeSassOption).on('error', sass.logError));
 
     if (isDev) {
-        sassStream
+        return sassStream
             .pipe(sourcemap.init())
             .pipe(concat(comboName))
             .pipe(sourcemap.write())
             .pipe(gulp.dest(path.join(paths.DIST, 'css')));
     }
     else {
-        sassStream
+        return sassStream
             .pipe(concat(comboName))
             .pipe(minifyCss())
             .pipe(rev())

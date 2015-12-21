@@ -2,28 +2,24 @@
 
 let gulp = require('gulp');
 let path = require('path');
+let revReplace = require('gulp-rev-replace');
 let paths = require('./config').paths;
-let revCollector = require('gulp-rev-collector');
 let isDev = process.env.NODE_ENV !== 'production';
 let fs = require('fs');
 
-gulp.task('html', ['build:js', 'build:css'], () => {
+gulp.task('html', ['css', 'sass', 'browserify'], () => {
+//gulp.task('html', ['build:js', 'build:css'], () => {
     if (isDev) {
-        gulp.src(paths.HTML)
+        return gulp.src(paths.HTML)
             .pipe(gulp.dest(paths.DIST));
     }
     else {
-        // @QUESTION 即使让html依赖生成map.json文件的task，
-        // 依旧读不到map.json文件，可能是map.json生成比较慢，
-        // 而task在他们生成好之前就执行下面的task了
-        // 这里hack一下，设置1s的延迟，留待日后详查！
-        setTimeout(() => {
-            gulp.src([paths.MAP + '/*.json', paths.HTML])
-                .pipe(revCollector({
-                    // replaceReved: true
-                    // dirReplacements: {
-                }))
-                .pipe(gulp.dest(paths.DIST));
-        }, 1000);
+        // 取出gulp-rev生成的静态文件资源map
+        let manifest = gulp.src(paths.MAP + '/*.json');
+
+        return gulp.src(paths.HTML)
+            // gulp-rev-replace替换html中引用的资源为md5后缀
+            .pipe(revReplace({manifest: manifest}))
+            .pipe(gulp.dest(paths.DIST));
     }
 });
