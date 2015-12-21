@@ -41,6 +41,6 @@ gulp.task('sass', () => {
             .pipe(rev())
             .pipe(gulp.dest(path.join(paths.DIST, 'css')))
             .pipe(rev.manifest('sass-map.json'))
-            .pipe(gulp.dest(path.join(paths.DIST, 'map')));
+            .pipe(gulp.dest(paths.MAP));
     }
 });

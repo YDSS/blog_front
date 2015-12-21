@@ -49,7 +49,7 @@ function bundle() {
             .pipe(rev())
             .pipe(gulp.dest(path.join(paths.DIST, 'js')))
             .pipe(rev.manifest('js-map.json'))
-            .pipe(gulp.dest(path.join(paths.DIST, 'map')));
+            .pipe(gulp.dest(paths.MAP));
     }
 }
 

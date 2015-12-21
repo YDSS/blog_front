@@ -8,6 +8,7 @@ let isDev = process.env.NODE_ENV !== 'production';
 let fs = require('fs');
 
 gulp.task('html', ['css', 'sass', 'browserify'], () => {
+// gulp.task('html', ['css', 'sass', 'browserify'], () => {
 //gulp.task('html', ['build:js', 'build:css'], () => {
     if (isDev) {
         return gulp.src(paths.HTML)

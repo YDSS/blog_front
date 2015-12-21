@@ -16,7 +16,7 @@ let paths = {
     IMAGE: './src/img',
     FONT: './src/font',
     // 静态资源md5后缀映射表
-    MAP: './dist/map'
+    MAP: './src/map'
 };
 
 exports.paths = paths;

@@ -27,7 +27,7 @@ gulp.task('css', () => {
             .pipe(rev())
             .pipe(gulp.dest(path.join(paths.DIST, 'css')))
             .pipe(rev.manifest('css-map.json'))
-            .pipe(gulp.dest(path.join(paths.DIST, 'map')));
+            .pipe(gulp.dest(paths.MAP));
     }
 
     // 坑：声明stream变量后，千万不要截断stream.pipe，这样stream对象
