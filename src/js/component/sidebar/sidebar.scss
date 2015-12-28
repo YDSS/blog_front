@@ -1,14 +1,19 @@
 @import 'global';
+@import 'compass/css3';
 @import 'mixin/flexbox';
-@import 'avatar/avatar';
-@import 'navbar/navbar';
- 
+
 .sidebar {
     position: fixed;
     top: 0;
     left: 0;
+    width: $sidebar-pc-w;
     height: 100%;
-    box-shadow: 1px 0 4px 1px #ccc;
+    @include box-shadow(1px 0 4px 1px #ccc);
+
+    @media screen and (max-width: #{$breakpoint-phone}) {
+        width: $sidebar-phone-w;
+        left: -$sidebar-phone-w;
+    }
 
     .avatar,
     .nav {

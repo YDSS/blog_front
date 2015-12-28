@@ -4,8 +4,12 @@ let gulp = require('gulp');
 let sass = require('gulp-sass');
 let concat = require('gulp-concat');
 let sourcemap = require('gulp-sourcemaps');
+let minifyCss = require('gulp-minify-css');
+let rev = require('gulp-rev');
 let paths = require('./config').paths;
 let path = require('path');
+let isDev = process.env.NODE_ENV !== 'production';
+let comboName = 'component.css';
 
 let nodeSassOption = {
     includePaths: [
@@ -17,13 +21,26 @@ let nodeSassOption = {
 };
 
 gulp.task('sass', () => {
-    gulp.src([
+    let sassStream = gulp.src([
         paths.SASS.view + '/**/*.scss',
         paths.SASS.component + '/**/*.scss'
     ])
-        .pipe(sourcemap.init())
-        .pipe(sass(nodeSassOption).on('error', sass.logError))
-        .pipe(concat('bundle.css'))
-        .pipe(sourcemap.write())
-        .pipe(gulp.dest(path.join(paths.DIST, 'css')));
+        .pipe(sass(nodeSassOption).on('error', sass.logError));
+
+    if (isDev) {
+        return sassStream
+            .pipe(sourcemap.init())
+            .pipe(concat(comboName))
+            .pipe(sourcemap.write())
+            .pipe(gulp.dest(path.join(paths.DIST, 'css')));
+    }
+    else {
+        return sassStream
+            .pipe(concat(comboName))
+            .pipe(minifyCss())
+            .pipe(rev())
+            .pipe(gulp.dest(path.join(paths.DIST, 'css')))
+            .pipe(rev.manifest('sass-map.json'))
+            .pipe(gulp.dest(paths.MAP));
+    }
 });

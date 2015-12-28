@@ -1,6 +1,6 @@
 @import 'global';
 
-$img-h: 120px;
+$img-h: 100px;
 
 .avatar {
     width: 100%;
@@ -9,8 +9,11 @@ $img-h: 120px;
     img {
         width: 100%;
         max-width: $img-h;
-        border-radius: 25%;
-        box-shadow: 0 0 3px 2px #fefefe;
+        border-radius: 20%;
+
+        @media screen and (max-width: $breakpoint-phone) {
+            max-width: 50px;
+        }
     }
 
     p {

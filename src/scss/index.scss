@@ -10,26 +10,10 @@ html, body {
     height: 100%;
 
     .body {
-        margin-left: $sidebar-large-w;
+        margin-left: $sidebar-pc-w;
 
-        @media screen and (max-width: #{$breakpoint-middle}) {
-            margin-left: $sidebar-middle-w;
-        }
-
-        @media screen and (max-width: #{$breakpoint-phone}) {
+        @media screen and (max-width: $breakpoint-phone) {
             margin-left: 0;
-        }
-    }
-
-    .sidebar {
-        width: $sidebar-large-w;
-
-        @media screen and (max-width: #{$breakpoint-middle}) {
-            width: $sidebar-middle-w;
-        }
-
-        @media screen and (max-width: #{$breakpoint-phone}) {
-            display: none;
         }
     }
 }

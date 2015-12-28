@@ -1,3 +1,5 @@
+@import 'global';
+@import 'compass/css3';
 @import 'mixin/flexbox';
 
 .nav {
@@ -6,20 +8,35 @@
     @include align-items(center);
 
     .item {
-        width: 82px;
-        margin-bottom: 20px;
-        font: 700 16px/20px normal;
+        @include flexbox;
+        width: 90px;
+        margin-bottom: 30px;
+        font-size: 16px;
+        line-height: 20px;
         color: #fff;
         text-decoration: none;
-        transition: transform .5s ease;
+        @include transition(transform .5s ease);
 
         &:hover {
-            transform: translate3d(10px, 0, 0);
+            @include transform(translate3d(10px, 0, 0));
         }
 
-        i {
+        > i {
+            @include flex(1);
             font-size: 20px;
             margin-right: 10px;
+        }
+
+        .nav-title {
+            @include flex(2);
+        }
+
+        @media screen and (max-width: #{$breakpoint-phone}) {
+            text-align: center;
+
+            span {
+                display: none;
+            }
         }
     }
 }

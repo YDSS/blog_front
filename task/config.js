@@ -13,7 +13,10 @@ let paths = {
         component: './src/js/component'
     },
     CSS: './src/css',
-    IMAGES: './src/img'
+    IMAGE: './src/img',
+    FONT: './src/font',
+    // 静态资源md5后缀映射表
+    MAP: './src/map'
 };
 
 exports.paths = paths;
