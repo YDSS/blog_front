@@ -10,4 +10,4 @@ gulp.task('build:js', ['browserify']);
 
 gulp.task('build:css', ['sass', 'css']);
 
-gulp.task('other', ['font', 'image', 'html']);
+gulp.task('other', ['font', 'image', 'template']);

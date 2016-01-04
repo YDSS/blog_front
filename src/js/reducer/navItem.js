@@ -8,6 +8,10 @@ const initialState = [
         name: 'EDIT',
         icon: 'pencil',
         url: '/edit'
+    },{
+        name: 'UPLOAD',
+        icon: 'upload',
+        url: '/upload'
     },
     {
         name: 'TAG',

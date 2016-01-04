@@ -7,10 +7,10 @@ let paths = require('./config').paths;
 let isDev = process.env.NODE_ENV !== 'production';
 let fs = require('fs');
 
-gulp.task('html', ['css', 'sass', 'browserify'], () => {
-// gulp.task('html', ['css', 'sass', 'browserify'], () => {
-//gulp.task('html', ['build:js', 'build:css'], () => {
+// 服务端有jade引擎，这里不做预编译
+gulp.task('template', ['css', 'sass', 'browserify'], () => {
     if (isDev) {
+        // return gulp.src(paths.Template + '/**')
         return gulp.src(paths.HTML)
             .pipe(gulp.dest(paths.DIST));
     }

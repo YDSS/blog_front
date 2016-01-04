@@ -9,8 +9,10 @@ requireDir('./task');
 
 gulp.task('default', ['build', 'server', 'watch']);
 
+gulp.task('build:back', ['build', 'watch']);
+
 gulp.task('watch', function () {
-    gulp.watch(paths.HTML, ['html']);
+    gulp.watch(paths.Template, ['template']);
     gulp.watch([
         paths.SASS.view + '/**/*.scss',
         paths.SASS.component + '/**/*.scss'
