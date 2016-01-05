@@ -1,0 +1,28 @@
+@import 'global';
+@import 'compass/css3';
+@import 'mixin/flexbox';
+
+.diary-calendar {
+    @include flexbox;
+    @include align-items(center);
+    position: relative;
+    width: 100%;
+    padding: 0 10px;
+    @include box-sizing(border-box);
+    z-index: 100;
+
+    > i {
+        margin-right: 10px;
+        font-size: 20px;
+        color: #fff;
+        cursor: pointer; 
+    }
+
+    @media screen and (max-width: $breakpoint-phone) {
+        @include justify-content(center);
+
+        .datepicker__input {
+            width: 0;
+        }
+    }
+}

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Avatar from '../avatar/Avatar.jsx';
 import Navbar from '../navbar/Navbar.jsx';
-import Diary from '../diary/Diary.jsx';
 
 class Sidebar extends Component {
 
@@ -24,7 +23,6 @@ class Sidebar extends Component {
                 <div className='bg'></div>
                 <Avatar img={avatar} title={author} />
                 <Navbar navItem={navItem} />
-                <Diary />
             </div>
         );
     }

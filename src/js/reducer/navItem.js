@@ -9,9 +9,9 @@ const initialState = [
         icon: 'pencil',
         url: '/edit'
     },{
-        name: 'UPLOAD',
-        icon: 'upload',
-        url: '/upload'
+        name: 'DIARY',
+        icon: 'book',
+        url: '/diary'
     },
     {
         name: 'TAG',

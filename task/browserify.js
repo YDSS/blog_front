@@ -46,10 +46,10 @@ function bundle() {
             // issue: http://stackoverflow.com/questions/24992980/how-to-uglify-output-with-browserify-in-gulp
             .pipe(buffer())
             .pipe(uglify())
-            .pipe(rev())
+            // .pipe(rev())
             .pipe(gulp.dest(path.join(paths.DIST, 'js')))
-            .pipe(rev.manifest('js-map.json'))
-            .pipe(gulp.dest(paths.MAP));
+            // .pipe(rev.manifest('js-map.json'))
+            // .pipe(gulp.dest(paths.MAP));
     }
 }
 

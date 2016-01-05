@@ -1,53 +1,70 @@
 import React, {Component} from 'react';
-import DatePicker from 'react-datepicker';
-import moment from 'moment';
+import fetch from 'isomorphic-fetch';
 
-class Diary extends Component {
+class Upload extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            // 用户选中的时间，也是日记的日期
-            selectedDate: moment()
+            isEnter: false
         };
     }
-
-    // 查看选中日期的日记
-    viewDiary(date) {
+    
+    onDragEnter(ev) {
+        ev.preventDefault();
 
         this.setState({
-            selectedDate: date
+            isEnter: true
         });
     }
 
-    showCalendar() {
-        // 直接ref DatePicker组件无法获取到input的dom对象，故
-        // 使用选择器直接获取，类名可以自定义，当前用的是datepicker__input
-        let $datePicker = document.querySelector('.datepicker__input');
-        $datePicker.click();
+    onDragLeave(ev) {
+        ev.preventDefault();
+
+        this.setState({
+            isEnter: false
+        });
+    }
+
+    onDragOver(ev) {
+        ev.preventDefault();
+    }
+
+    onDrop(ev) {
+        ev.preventDefault();
+        
+        this.setState({
+            isEnter: false
+        });
+
+        let file = ev.dataTransfer.files[0];
+        let formData = new FormData();
+        formData.append('uploadFile', file);
+
+        let dir = 'diary';
+        fetch(`/file/upload?dir=${dir}`, {
+            method: 'post',
+            body: formData
+        });
     }
 
     render() {
+        let {isEnter} = this.state;
+
         return (
-            <div className='diary-calendar'>
-                <i 
-                    ref='icon'
-                    className='fa fa-calendar' 
-                    onClick={this.showCalendar.bind(this)}
-                ></i>
-                <DatePicker
-                    className='datepicker__input'
-                    selected={this.state.selectedDate}
-                    onChange={this.viewDiary.bind(this)}
-                    showYearDropdown={false}
-                    dateFormat='DD MMMM, YYYY'
-                    popoverAttachment='top right'
-                    popoverTargetOffset='-10px -60px'
-                />
+            <div className='upload'>
+                <div 
+                    className={'drag-area' + (isEnter ? ' enter' : '')}
+                    onDragEnter={this.onDragEnter.bind(this)}
+                    onDragOver={this.onDragOver.bind(this)}
+                    onDragLeave={this.onDragLeave.bind(this)}
+                    onDrop={this.onDrop.bind(this)}
+                    ></div>
             </div>
         );
     }
+
 }
 
-export default Diary;
+export default Upload;
