@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import fetch from 'isomorphic-fetch';
 
-class Upload extends Component {
+class Diary extends Component {
 
     constructor(props) {
         super(props);
@@ -67,4 +67,4 @@ class Upload extends Component {
 
 }
 
-export default Upload;
+export default Diary;

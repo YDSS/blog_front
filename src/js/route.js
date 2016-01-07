@@ -4,6 +4,7 @@ import App from './container/App.jsx';
 import Content from './component/content/Content.jsx';
 import Editor from './component/editor/Editor.jsx';
 import Article from './component/article/Article.jsx';
+import Diary from './component/diary/Diary.jsx';
 
 // normal react-router configure
 let routes = (
@@ -11,7 +12,7 @@ let routes = (
         <IndexRoute component={Content} />
         <Route path='home' component={Content} />
         <Route path='edit' component={Editor} />
-        <Route path='diary' component={Upload} />
+        <Route path='diary' component={Diary} />
         <Route path='article/:id' component={Article} />
     </Route>
 );
