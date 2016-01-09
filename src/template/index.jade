@@ -1,8 +1,10 @@
 extends ./layout.jade
 
 block style
-    link(rel="stylesheet" href"./css/component.css")
-    link(rel="stylesheet" href"./css/third-part.css")
+    link(rel="stylesheet" href="./css/component.css")
+    link(rel="stylesheet" href="./css/third-part.css")
 
 block script
+    script.
+        var serverData = !{serverData};
     script(src="./js/bundle.js" charset="utf-8")

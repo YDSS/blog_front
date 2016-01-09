@@ -12,7 +12,7 @@ gulp.task('default', ['build', 'server', 'watch']);
 gulp.task('build:back', ['build', 'watch']);
 
 gulp.task('watch', function () {
-    gulp.watch(paths.Template, ['template']);
+    gulp.watch(paths.Template + '/*.jade', ['template']);
     gulp.watch([
         paths.SASS.view + '/**/*.scss',
         paths.SASS.component + '/**/*.scss'

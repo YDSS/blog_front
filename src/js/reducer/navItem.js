@@ -1,34 +1,5 @@
-const initialState = [
-    {
-        name: 'HOME',
-        icon: 'home',
-        url: '/home'
-    },
-    {
-        name: 'EDIT',
-        icon: 'pencil',
-        url: '/edit'
-    },{
-        name: 'DIARY',
-        icon: 'book',
-        url: '/diary'
-    },
-    {
-        name: 'TAG',
-        icon: 'tags',
-        url: '/tag'
-    },
-    {
-        name: 'ABOUT',
-        icon: 'question',
-        url: '/about'
-    },
-    {
-        name: 'GITHUB',
-        icon: 'github',
-        url: 'http://github.com/YDSS'
-    }
-];
+// 数据由后端渲染
+const initialState = serverData.navItems;
 
 export default function navItem(state = initialState, action) {
     switch (action.type) {

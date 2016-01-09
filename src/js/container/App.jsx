@@ -38,6 +38,7 @@ function mapStateToProps(state) {
         // must be return as name router
         router: state.router,
         navItem: state.navItem,
+        auth: state.auth,
         article: state.article
     }
 }
