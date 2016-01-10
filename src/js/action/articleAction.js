@@ -6,7 +6,7 @@ export function addArticle(content) {
     content = encodeURIComponent(content);
 
     return dispatch => {
-        return fetch(`/article/add?content=${content}`)
+        return fetch(`/api/article/add?content=${content}`)
             .then(req => req.json())
             .then(res => {
                 res.errno === 0 && dispatch(dispatchAddArticle(res.data));
@@ -33,7 +33,7 @@ export function fetchArticleByPage(curPage, pageSize) {
     let type = 'pagination';
 
     return dispatch => {
-        return fetch(`/article/find?type=${type}&curPage=${curPage}&pageSize=${pageSize}`)
+        return fetch(`/api/article/find?type=${type}&curPage=${curPage}&pageSize=${pageSize}`)
             .then(req => req.json())
             .then(ret => {
                 dispatch(dispatchFetchArticleByPage(curPage, ret.data));

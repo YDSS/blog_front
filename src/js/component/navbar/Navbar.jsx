@@ -7,36 +7,129 @@ class Navbar extends Component {
         super(props);
     }
 
+    /**
+     * 生成指向内部路由的链接
+     *
+     * @param {Object} item 节点信息
+     * @param {number} index 节点位置
+     *
+     * @return {Object} 节点元素
+     */
+    createInnerLink(item, index) {
+        let iconClass = 'fa fa-' + item.icon;
+
+        return (
+            <Link className='item' to={item.url} key={index + item.name}>
+                <i className={iconClass}/>
+                <span className="nav-title">{item.name}</span>
+            </Link>
+        );
+    }
+
+    /**
+     * 生成指向外部路由的链接
+     *
+     * @param {Object} item 节点信息
+     * @param {number} index 节点位置
+     *
+     * @return {Object} 节点元素
+     */
+    createOuterLink(item, index) {
+        let iconClass = 'fa fa-' + item.icon;
+
+        return (
+            <a className='item' href={item.url} key={index + item.name}>
+                <i className={iconClass}/>
+                <span className="nav-title">{item.name}</span>
+            </a>
+        );
+    }
+
+    /**
+     * 生成带有子节点的链接, 子节点不会再有子节点，现在只有两层
+     *
+     * @param {Object} item 节点信息
+     * @param {number} index 节点位置
+     *
+     * @return {Object} 节点元素
+     */
+    createLinkWithChildren(item, index) {
+        let iconClass = 'fa fa-' + item.icon;
+        let children = item.children;
+                
+        return (
+            <div className='item has-children' key={index + item.name} onClick={this.toggleChildNode.bind(this)}>
+                <i className={iconClass}/>
+                <span className="nav-title">{item.name}</span>
+                <ul className='children'>
+                    {children.map(this.createChildNodes)}
+                </ul>
+            </div>
+        );
+    }
+
+    /**
+     * 展开或收起子元素
+     *
+     * @param {Object} ev 点击事件对象
+     */
+    toggleChildNode(ev) {
+        let $item = ev.currentTarget;
+        let unfoldClass = 'unfold';
+        let itemClassList = $item.classList;
+        let originHeight = 20;
+        let realHeight = originHeight + $item
+            .querySelector('.children')
+            .getBoundingClientRect()
+            .height;
+
+        if (itemClassList.contains(unfoldClass)) {
+            itemClassList.remove(unfoldClass);
+            $item.style.height = originHeight + 'px';
+        }
+        else {
+            itemClassList.add(unfoldClass);
+            $item.style.height = realHeight + 'px';
+        }
+    }
+
+    createChildNodes(item, index) {
+        return (
+            <li key={index + item.name}>
+                <Link to={item.url}>
+                    {item.name}
+                </Link>
+            </li>
+        );
+    }
+
+    createItem(item, index) {
+        let $item;
+
+        switch (item.type) {
+            // 指向内部路由的链接
+            case 0:
+                $item = this.createInnerLink(item, index);
+                break;
+            // 指向外部路由的链接
+            case 1:
+                $item = this.createOuterLink(item, index);        
+                break;
+            // 带有子节点的链接
+            case 2:
+                $item = this.createLinkWithChildren(item, index);
+                break;
+        }
+
+        return $item;
+    }
+
     render() {
-        let createItem = (item, index) => {
-            let iconClass = 'fa fa-' + item.icon;
-            let $item;
-
-            // 非router路由不能使用Link标签
-            if (item.name.toLowerCase() === 'github') {
-                $item = (
-                    <a className='item' href={item.url} key={index + item.name}>
-                        <i className={iconClass}/>
-                        <span className="nav-title">{item.name}</span>
-                    </a>
-                );
-            }
-            else {
-                $item = (
-                    <Link className='item' to={item.url} key={index + item.name}>
-                        <i className={iconClass}/>
-                        <span className="nav-title">{item.name}</span>
-                    </Link>
-                );
-            }
-
-            return $item;
-        };
         const { navItem } = this.props;
 
         return (
             <nav className='nav'>
-                {navItem.map(createItem)}
+                {navItem.map(this.createItem.bind(this))}
             </nav>
         );
     }

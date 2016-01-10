@@ -9,14 +9,14 @@ let fs = require('fs');
 
 // 服务端有jade引擎，这里不做预编译
 gulp.task('template', ['css', 'sass', 'browserify'], () => {
-    if (isDev) {
-        return gulp.src(paths.HTML)
-            .pipe(gulp.dest(paths.DIST));
-    }
-    else {
+    // if (isDev) {
+    //     return gulp.src(paths.HTML)
+    //         .pipe(gulp.dest(paths.DIST));
+    // }
+    // else {
         return gulp.src(paths.Template + '/*.jade')
             .pipe(gulp.dest(path.join(__dirname, '../../blog_back/views')));
-    }
+    // }
 
     // 暂时不加md5
     // if (isDev) {

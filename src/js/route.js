@@ -12,7 +12,9 @@ let routes = (
         <IndexRoute component={Content} />
         <Route path='home' component={Content} />
         <Route path='edit' component={Editor} />
-        <Route path='diary' component={Diary} />
+        <Route path='diary'>
+            <Route path='upload' component={Diary} />
+        </Route>
         <Route path='article/:id' component={Article} />
     </Route>
 );
