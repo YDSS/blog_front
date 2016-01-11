@@ -59,8 +59,10 @@ class Navbar extends Component {
                 
         return (
             <div className='item has-children' key={index + item.name} onClick={this.toggleChildNode.bind(this)}>
-                <i className={iconClass}/>
-                <span className="nav-title">{item.name}</span>
+                <div className='parent'>
+                    <i className={iconClass}/>
+                    <span className="nav-title">{item.name}</span>
+                </div>
                 <ul className='children'>
                     {children.map(this.createChildNodes)}
                 </ul>
@@ -75,20 +77,22 @@ class Navbar extends Component {
      */
     toggleChildNode(ev) {
         let $item = ev.currentTarget;
-        let unfoldClass = 'unfold';
+        // 标记是否展开，没有样式
+        let mark = 'unfold';
         let itemClassList = $item.classList;
         let originHeight = 20;
-        let realHeight = originHeight + $item
+        // 10为.children margin-top的值
+        let realHeight = 10 + originHeight + $item
             .querySelector('.children')
             .getBoundingClientRect()
             .height;
 
-        if (itemClassList.contains(unfoldClass)) {
-            itemClassList.remove(unfoldClass);
+        if (itemClassList.contains(mark)) {
+            itemClassList.remove(mark);
             $item.style.height = originHeight + 'px';
         }
         else {
-            itemClassList.add(unfoldClass);
+            itemClassList.add(mark);
             $item.style.height = realHeight + 'px';
         }
     }

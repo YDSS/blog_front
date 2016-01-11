@@ -42,30 +42,41 @@ $nav-h: 20px;
             cursor: pointer;
         }
 
-        &.unfold {
+        .parent {
+            @include flexbox;
+            width: 100%;
+
+            > i {
+                @include flex(1);
+                font-size: 20px;
+                margin-right: 10px;
+            }
+
+            .nav-title {
+                @include flex(2);
+            }
         }
 
         .children {
-            margin-top: 5px;
+            margin: 10px 0 0 32px;
 
             > li {
-                display: block;
                 margin-bottom: 5px;
-            }
 
-            > li a {
-                padding: 2px 5px;
-                color: #fff;
-                text-decoration: none;
+                > a {
+                    padding: 2px 5px;
+                    color: #fff;
+                    text-decoration: none;
 
-                &:last-child {
-                    margin-bottom: 0;
-                }
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
 
-                &:hover {
-                    background-color: #fff;
-                    color: #666;
-                    @include border-radius(5px);
+                    &:hover {
+                        background-color: #fff;
+                        color: #666;
+                        @include border-radius(5px);
+                    }
                 }
             }
         }
