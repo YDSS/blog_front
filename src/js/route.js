@@ -5,6 +5,7 @@ import Content from './component/content/Content.jsx';
 import Editor from './component/editor/Editor.jsx';
 import Article from './component/article/Article.jsx';
 import Diary from './component/diary/Diary.jsx';
+import View from './component/diary/view/View.jsx';
 
 // normal react-router configure
 let routes = (
@@ -14,6 +15,7 @@ let routes = (
         <Route path='edit' component={Editor} />
         <Route path='diary'>
             <Route path='upload' component={Diary} />
+            <Route path='view' component={View} />
         </Route>
         <Route path='article/:id' component={Article} />
     </Route>
