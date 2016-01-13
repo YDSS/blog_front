@@ -1,0 +1,15 @@
+@import 'compass/css3';
+@import 'mixin/flexbox';
+
+.view {
+    @include flexbox;
+    width: 100%;
+
+    .content {
+        @include flex(5);
+        height: 1000px;
+    }
+
+    .calendar {
+    }
+}
