@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import fetch from 'isomorphic-fetch';
+import {connect} from 'react-redux';
+import * as diaryAction from '../../../action/diaryAction';
 
-class Diary extends Component {
+class Upload extends Component {
 
     constructor(props) {
         super(props);
@@ -38,15 +39,18 @@ class Diary extends Component {
             isEnter: false
         });
 
+        let {dispatch} = this.props;
         let file = ev.dataTransfer.files[0];
         let formData = new FormData();
         formData.append('uploadFile', file);
+        
+        dispatch(diaryAction.upload(formData));
 
-        let dir = 'diary';
-        fetch(`/file/upload?dir=${dir}`, {
-            method: 'post',
-            body: formData
-        });
+        // let dir = 'diary';
+        // fetch(`/file/upload?dir=${dir}`, {
+        //     method: 'post',
+        //     body: formData
+        // });
     }
 
     render() {
@@ -67,4 +71,10 @@ class Diary extends Component {
 
 }
 
-export default Diary;
+function mapStateToProps(state) {
+    return {
+        diary: state.diary
+    };
+}
+
+export default connect(mapStateToProps)(Upload);
