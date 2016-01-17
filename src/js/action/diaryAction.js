@@ -92,16 +92,18 @@ export function loadDiary(dateString) {
         // 遍历缓存中是否已有该日记，
         // 有则返回，没有则继续请求
         const list = getState().diary.list;
-        let index = list.find(item => item.dateString === dateString);
-        if (index) {
-            return list[index];
+        let cache = list.find(item => item.dateString === dateString);
+        // getDiariesByMonth会取到当月的所有日记的dateString，
+        // 所以加上content来判断是否有缓存
+        if (cache && cache.content) {
+            return Promise.resolve(cache);
         }
         else {
             dispatch(requestDiary());
             return fetch(`${fileApi}/find?dateString=${dateString}`)
                 .then(response => response.json())
                 .then(ret => {
-                    if (ret.errno === 0 && ret.date) {
+                    if (ret.errno === 0 && ret.data) {
                         dispatch(saveDiary(ret.data));
                         return ret.data;
                     }
@@ -121,3 +123,52 @@ export function loadDiary(dateString) {
     }
 }
 
+export const GET_DIARIES_BY_MONTH_REQUEST = 'GET_DIARIES_BY_MONTH_REQUEST';
+export const GET_DIARIES_BY_MONTH_SUCCESS = 'GET_DIARIES_BY_MONTH_SUCCESS';
+export const GET_DIARIES_BY_MONTH_FAIL = 'GET_DIARIES_BY_MONTH_FAIL';
+
+function requestDiariesByMonth() {
+    return {
+        type: GET_DIARIES_BY_MONTH_REQUEST
+    };
+}
+
+function saveDiariesByMonth(data) {
+    return {
+        type: GET_DIARIES_BY_MONTH_SUCCESS,
+        data
+    };
+}
+
+function getDiariesByMonthFail(data) {
+    return {
+        type: GET_DIARIES_BY_MONTH_FAIL,
+        data
+    };
+}
+
+export function getDiariesByMonth(year, month) {
+    return (dispatch, getState) => {
+        dispatch(requestDiariesByMonth());
+
+        return fetch(`${fileApi}/findByMonth?year=${year}&month=${month}`)
+            .then(response => response.json())
+            .then(ret => {
+                if (ret.errno === 0 && ret.data) {
+                    dispatch(saveDiariesByMonth(ret.data));
+                    return ret.data;
+                }
+                else {
+                    dispatch(getDiariesByMonthFail());
+                    return ret.err || ret.data;
+                }
+            }, err => {
+                dispatch(getDiariesByMonthFail());
+                return err.message;
+            })
+            .catch(err => {
+                dispatch(getDiariesByMonthFail());
+                throw err;
+            });
+    };
+}

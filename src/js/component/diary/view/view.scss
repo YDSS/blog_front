@@ -2,14 +2,15 @@
 @import 'mixin/flexbox';
 
 .view {
-    @include flexbox;
-    width: 100%;
+    padding: 10px 20px;
 
-    .content {
-        @include flex(5);
-        height: 1000px;
-    }
+    .date {
+        margin-left: 10px;
+        font-size: 14px;
+        color: #9EABB3;
 
-    .calendar {
+        > i {
+            margin-right: 5px;
+        }
     }
 }
