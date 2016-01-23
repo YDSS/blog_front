@@ -3,6 +3,8 @@ import {fetchArticleByPage, updateCurPage} from '../../action/articleAction';
 import ListItem from '../listItem/ListItem.jsx';
 import Pagination from '../pagination/Pagination.jsx';
 
+import './home.scss';
+
 class Home extends Component {
 
     constructor(props) {

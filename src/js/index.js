@@ -5,12 +5,15 @@ import { ReduxRouter } from 'redux-router';
 import configureStore from './store/configureStore';
 import routes from './route'
 
+import 'font-awesome-webpack';
+import '../scss/index.scss';
+
 // create store without initial state
 let store = configureStore();
 // html entry point
 let $wrap = document.getElementById('wrapper');
 
-render(
+let rootInstance = render(
     <Provider store={store}>
         <ReduxRouter>
             {routes}
@@ -19,3 +22,10 @@ render(
     $wrap
 );
 
+if (module.hot) {
+    require('react-hot-loader/Injection').RootInstanceProvider.injectProvider({
+        getRootInstances: function () {
+            return [rootInstance];
+        }
+    });
+}

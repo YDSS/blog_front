@@ -4,11 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>YDS's Blog</title>
-    <link rel="stylesheet" href="./css/component.css" type="text/css" media="all" />
-    <link rel="stylesheet" href="./css/third-part.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="./style.css" type="text/css" media="all" />
 </head>
 <body>
     <div id="wrapper" class="wrapper"></div>  
-    <script src="./js/bundle.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+    var serverData = {
+        auth: true,
+        navItems: [
+        {
+            name: 'HOME',
+            icon: 'home',
+            type: 0,
+            url: '/home'
+        },
+        {
+            name: 'EDIT',
+            icon: 'pencil',
+            type: 0,
+            url: '/edit'
+        },{
+            name: 'DIARY',
+            icon: 'book',
+            type: 2,
+            children: [{
+                name: 'view',
+                url: '/diary/view'
+            }, {
+                name: 'upload',
+                url: '/diary/upload'
+            }],
+                url: '/diary'
+        },
+        {
+            name: 'TAGS',
+            icon: 'tags',
+            type: 0,
+            url: '/tag'
+        },
+        {
+            name: 'ABOUT',
+            icon: 'question',
+            type: 0,
+            url: '/about'
+        },
+        {
+            name: 'GITHUB',
+            icon: 'github',
+            type: 1,
+            url: 'http://github.com/YDSS'
+        }
+        ]
+    };
+    </script>
+    <script src="./vendors.bundle.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./app.bundle.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>

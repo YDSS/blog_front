@@ -6,6 +6,8 @@ import DateTimeFormat from 'gregorian-calendar-format';
 import * as diaryAction from '../../../action/diaryAction';
 import {rawMarkup} from '../../../mixin/markup.js';
 
+import './view.scss';
+
 const dateFormatter = new DateTimeFormat('MMMM d, yyyy');
 const dateStringFormatter = new DateTimeFormat('yyyy-MM-dd');
 

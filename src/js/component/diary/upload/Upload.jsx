@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as diaryAction from '../../../action/diaryAction';
 
+import './upload.scss';
+
 class Upload extends Component {
 
     constructor(props) {

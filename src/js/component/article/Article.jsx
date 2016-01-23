@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { rawMarkup } from '../../mixin/markup.js';
 
+import './article.scss';
+
 class Article extends Component {
 
     render() {

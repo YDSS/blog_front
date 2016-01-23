@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { dispatch } from 'redux';
 
+import './pagination.scss';
+
 /**
  * 翻页组件
  *
