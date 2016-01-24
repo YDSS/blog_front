@@ -6,7 +6,7 @@ var webpackConf = require('./webpack.config');
 var path = require('path');
 var paths = require('./conf');
 
-gulp.task('default', ['webpack-dev-server', 'html-watch']);
+gulp.task('default', ['webpack-dev-server', 'html-watch', 'template-watch']);
 // build development
 gulp.task('build-dev', ['webpack:build-dev'], function () {
     gulp.watch(['./src/js/**/*'], ['webpack:build-dev']);
@@ -15,7 +15,7 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 // build production
 gulp.task('build', ['webpack:build']);
 
-// 模板
+// webpack-dev-server单独使用需要index.html
 gulp.task('html', function () {
     gulp.src(paths.HTML)
         .pipe(gulp.dest(paths.DIST));
@@ -23,6 +23,16 @@ gulp.task('html', function () {
 
 gulp.task('html-watch', function () {
     gulp.watch(paths.HTML, ['html']);
+});
+
+// webpack-dev-server配合backend使用需要jade模板
+gulp.task('template', function () {
+    gulp.src(paths.TEMPLATE + '/*.jade')
+        .pipe(gulp.dest(paths.BACKEND + '/views'));
+});
+
+gulp.task('template-watch', function () {
+    gulp.watch(paths.TEMPLATE + '/**', ['template']);
 });
 
 gulp.task('webpack:build', function (done) {
@@ -71,12 +81,14 @@ gulp.task('webpack:build-dev', ['html'], function (done) {
     });
 });
 
-gulp.task('webpack-dev-server', ['html'], function (done) {
+gulp.task('webpack-dev-server', ['html', 'template'], function (done) {
     var myConf = Object.create(webpackConf);
     // --inline的node api写法
     myConf.entry.app.unshift("webpack-dev-server/client?http://localhost:8080");
     myConf.devtool = 'source-map';
     myConf.debug = true;
+    // 与后端服务器连接，需要full url，这里覆盖webpack.conf里的publicPath
+    myConf.output.publicPath = 'http://127.0.0.1:8080/';
     myConf.plugins = webpackConf.plugins.concat(
         // 加上热替换组件
         new webpack.HotModuleReplacementPlugin(),
@@ -89,12 +101,12 @@ gulp.task('webpack-dev-server', ['html'], function (done) {
         contentBase: paths.DIST,
         publicPath: myConf.output.publicPath,
         hot: true,
-        proxy: {
-            '/api/*': {
-                target: 'http://127.0.0.1:3000',
-                secure: false
-            }
-        },
+        // proxy: {
+        //     '/api/*': {
+        //         target: 'http://127.0.0.1:3000',
+        //         secure: false
+        //     }
+        // },
         stats: {
             color: true
         }

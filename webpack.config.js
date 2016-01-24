@@ -26,7 +26,7 @@ var config = {
             loader: ExtractTextPlugin.extract('css!sass')
         }, {
             test: /\.(jpe?g|png)$/,
-            loader: 'file-loader?name=[name]_[hash].[ext]'
+            loader: 'file-loader?name=[name].[ext]'
         }, {
             test: /\.css$/,
             loader: ExtractTextPlugin.extract('css')

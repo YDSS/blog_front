@@ -5,6 +5,7 @@ import { ReduxRouter } from 'redux-router';
 import configureStore from './store/configureStore';
 import routes from './route'
 
+import 'normalize.css';
 import 'font-awesome-webpack';
 import '../scss/index.scss';
 

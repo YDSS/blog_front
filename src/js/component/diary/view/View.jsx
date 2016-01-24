@@ -7,6 +7,7 @@ import * as diaryAction from '../../../action/diaryAction';
 import {rawMarkup} from '../../../mixin/markup.js';
 
 import './view.scss';
+import 'rc-calendar/assets/index.css';
 
 const dateFormatter = new DateTimeFormat('MMMM d, yyyy');
 const dateStringFormatter = new DateTimeFormat('yyyy-MM-dd');

@@ -8,7 +8,7 @@ class Avatar extends Component {
         // 我的用户名
         author: 'YDSS',
         // 头像url
-        avatar: './avatar.png'
+        avatar: require('../../../img/avatar.png')
     };
 
     render() {

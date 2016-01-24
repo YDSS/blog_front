@@ -57,12 +57,12 @@ h4 {
     font-size:100%;
 }
 h5 {
-    font-size:80%
+    font-size:80%;
     font-weight: 100;
 }
 
 h6 {
-    font-size:80%
+    font-size:80%;
     font-weight: 100;
     color:red;
 }
@@ -126,7 +126,7 @@ hr {
 
 pre {
     padding: 10px;
-    background: url(/img/bg-code.png) top center #fdf6e3;
+    background: url(..//img/bg-code.png) top center #fdf6e3;
     color: #657b83;
     -webkit-text-size-adjust: none;
     border-radius: 5px;

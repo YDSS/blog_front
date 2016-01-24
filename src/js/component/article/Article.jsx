@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { rawMarkup } from '../../mixin/markup.js';
 
 import './article.scss';
+import '../../../css/markdown.css';
 
 class Article extends Component {
 
