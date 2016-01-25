@@ -64,6 +64,11 @@ gulp.task('webpack:build', function (done) {
 var myDevConf = Object.create(webpackConf);
 myDevConf.devtool = 'source-map';
 myDevConf.debug = true;
+myDevConf.plugins = webpackConf.plugins.concat(
+    new webpack.ProgressPlugin(function handler(percentage, msg) {
+        console.log((percentage * 100) + '%', msg);
+    })
+);
 
 // 把webpack实例缓存下来，这样就不用每次启动build-dev都新建一个实例
 var devCompiler = webpack(myDevConf);

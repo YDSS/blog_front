@@ -13,7 +13,7 @@ var config = {
     output: {
         path: path.resolve(__dirname, paths.DIST),
         publicPath: '/',
-        filename: '[name].bundle.js',
+        filename: 'js/[name].bundle.js',
         chunkFilename: '[chunkhash].js'
     },
     module: {
@@ -26,7 +26,7 @@ var config = {
             loader: ExtractTextPlugin.extract('css!sass')
         }, {
             test: /\.(jpe?g|png)$/,
-            loader: 'file-loader?name=[name].[ext]'
+            loader: 'file-loader?name=img/[name].[ext]'
         }, {
             test: /\.css$/,
             loader: ExtractTextPlugin.extract('css')
@@ -36,11 +36,11 @@ var config = {
         }, {
             // font-awesome
             test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
-            loader: "url-loader?limit=10000&mimetype=application/font-woff" 
+            loader: "url-loader?limit=10000&mimetype=application/font-woff&name=font/[name].[ext]" 
         }, {
             // font-awesome
             test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
-            loader: "file-loader" 
+            loader: "file-loader?name=font/[name].[ext]" 
         }
         ]
     },
@@ -53,7 +53,7 @@ var config = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin('style.css', {
+        new ExtractTextPlugin('css/style.css', {
             allChunks: true
         })
     ],
