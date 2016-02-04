@@ -25,8 +25,13 @@ var config = {
             test: /\.scss$/,
             loader: ExtractTextPlugin.extract('css!sass')
         }, {
-            test: /\.(jpe?g|png)$/,
-            loader: 'file-loader?name=img/[name].[ext]'
+            test: /\.(jpe?g|png|gif|svg)$/i,
+            loaders: [
+                // 引入方式
+                'file-loader?name=img/[name].[ext]',
+                // 图片优化, 详细配置在module同级的imagemin属性中
+                'img?minimize'
+            ]
         }, {
             test: /\.css$/,
             loader: ExtractTextPlugin.extract('css')
@@ -60,6 +65,25 @@ var config = {
     resolve: {
         root: path.resolve('./src'),
         extensions: ['', '.js']
+    },
+    // 默认情况下只在webpack是production mode时会执行优化(或者是有UglifyJsPlugin执行)
+    imagemin: {
+        gifsicle: { interlaced: false },
+        jpegtran: {
+            progressive: true,
+            arithmetic: false
+        },
+        optipng: { optimizationLevel: 5 },
+        pngquant: {
+            floyd: 0.5,
+            speed: 2
+        },
+        svgo: {
+            plugins: [
+                { removeTitle: true },
+                { convertPathData: false }
+            ]
+        }
     }
 }
 

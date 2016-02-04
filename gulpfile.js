@@ -45,6 +45,9 @@ gulp.task('webpack:build', function (done) {
                 'NODE_ENV': JSON.stringify('production')
             }
         }),
+        // new webpack.ProgressPlugin(function handler(percentage, msg) {
+        //     console.log((percentage * 100) + '%', msg);
+        // }),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.UglifyJsPlugin()
     );
