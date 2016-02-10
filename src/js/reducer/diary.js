@@ -10,14 +10,22 @@ import {
     GET_DIARIES_BY_MONTH_FAIL
 } from '../action/diaryAction';
 
+let curDate = new Date();
+let rawMonth = curDate.getMonth() + 1 + '';
+let fullMonth = rawMonth.length > 1 ? rawMonth : ('0' + rawMonth);
+// 格式：2015-01
+let curKey = `${curDate.getFullYear()}-${fullMonth}`;
+
 const initialState = {
     isFetching: false,
-    // list diary object
-    list: []
+    curKey,
+    // 日记列表，按年和月分map，
+    // 如2015-10的日记存储格式为map('2015-10', [{}, {}...])
+    list: new Map()
 };
 
 export default function diary(state = initialState, action) {
-    let data;
+    let payload;
 
     switch (action.type) {
         case UPLOAD_DIARY_REQUEST:
@@ -30,12 +38,17 @@ export default function diary(state = initialState, action) {
 
         case UPLOAD_DIARY_SUCCESS:
         case GET_DIARY_SUCCESS:
-            data = action.data;
+            payload = action.payload;
+            // 未取到数据，payload都为null，可以以此为判断条件
+            if (payload == null) {
+                return state;
+            }
+
             let newDiary = {
-                dateString: data.dateString,
-                id: data.id,
-                title: data.title,
-                content: data.content
+                dateString: payload.dateString,
+                id: payload.id,
+                title: payload.title,
+                content: payload.content
             };
             // 如果dateString已经存在，则覆盖其他属性
             let newList = state.list.map(item => {
@@ -54,11 +67,13 @@ export default function diary(state = initialState, action) {
             break;
         
         case GET_DIARIES_BY_MONTH_SUCCESS:
-            data = action.data;
+            payload = action.payload;
+            let dateKey = action.meta;
 
             return Object.assign({}, state, {
                 isFetching: false,
-                list: data
+                curKey: dateKey,
+                list: state.list.set(dateKey, payload)
             });
             break;
 
