@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
 import Avatar from '../avatar/Avatar.jsx';
 import Navbar from '../navbar/Navbar.jsx';
-import Diary from '../diary/Diary.jsx';
+
+import './sidebar.scss';
 
 class Sidebar extends Component {
-
-    static defaultProps = {
-        // 我的用户名
-        author: 'YDSS',
-        // 头像url
-        avatar: '/img/avatar.png'
-    }
-    
     constructor(props) {
         super(props);
     }
@@ -22,9 +15,8 @@ class Sidebar extends Component {
         return (
             <div className='sidebar'>
                 <div className='bg'></div>
-                <Avatar img={avatar} title={author} />
+                <Avatar />
                 <Navbar navItem={navItem} />
-                <Diary />
             </div>
         );
     }

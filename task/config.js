@@ -6,6 +6,7 @@ let paths = {
     // DIST: './dist',
     Entry: './src/js/index.js',
     HTML: './src/index.html',
+    Template: './src/template',
     SASS: {
         // 页面级样式文件
         view: './src/scss', 

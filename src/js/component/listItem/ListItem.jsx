@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 
+import './listItem.scss';
+
 class ListItem extends Component {
 
     render() {

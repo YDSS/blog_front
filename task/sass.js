@@ -38,9 +38,9 @@ gulp.task('sass', () => {
         return sassStream
             .pipe(concat(comboName))
             .pipe(minifyCss())
-            .pipe(rev())
+            // .pipe(rev())
             .pipe(gulp.dest(path.join(paths.DIST, 'css')))
-            .pipe(rev.manifest('sass-map.json'))
-            .pipe(gulp.dest(paths.MAP));
+            // .pipe(rev.manifest('sass-map.json'))
+            // .pipe(gulp.dest(paths.MAP));
     }
 });

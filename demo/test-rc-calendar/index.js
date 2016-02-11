@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import DatePicker from 'react-datepicker'; 
+import Calendar from 'rc-calendar';
 import moment from 'moment';
 
 let $wrap = document.getElementById('wrapper');
@@ -15,18 +15,15 @@ class Example extends Component {
         };
     }
 
-    handleChange(ev) {
+    onChange(date) {
         debugger;
     }
 
     render() {
         return (
             <div className='example'>
-                <DatePicker
-                    selected={this.state.startDate}
-                    onChange={this.handleChange}
-                    showYearDropdown={false}
-                    dateFormat='DD MMMM, YYYY'
+                <Calendar 
+                    onChange={this.onChange}
                 />
             </div>
         );

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { pushState } from 'redux-router';
-import { rawMarkup } from '../../mixin/markup.jsx';
+import { rawMarkup } from '../../mixin/markup.js';
 import { addArticle } from '../../action/articleAction';
+
+import './editor.scss';
 
 class Editor extends Component {
 

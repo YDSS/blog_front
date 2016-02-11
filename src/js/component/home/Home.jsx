@@ -3,7 +3,9 @@ import {fetchArticleByPage, updateCurPage} from '../../action/articleAction';
 import ListItem from '../listItem/ListItem.jsx';
 import Pagination from '../pagination/Pagination.jsx';
 
-class Content extends Component {
+import './home.scss';
+
+class Home extends Component {
 
     constructor(props) {
         super(props);
@@ -55,7 +57,7 @@ class Content extends Component {
         let curPageList = list.get(curPage);
 
         return (
-            <div className='content'>
+            <div className='home'>
                 <div className='list-group'>
                     {curPageList && curPageList.slice(0, pageSize).map(item => 
                         <ListItem data={item} key={item.id} />
@@ -72,4 +74,4 @@ class Content extends Component {
     }
 }
 
-export default Content;
+export default Home;

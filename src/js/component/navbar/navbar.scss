@@ -2,6 +2,8 @@
 @import 'compass/css3';
 @import 'mixin/flexbox';
 
+$nav-h: 20px;
+
 .nav {
     @include flexbox;
     @include flex-flow(column nowrap);
@@ -12,7 +14,7 @@
         width: 90px;
         margin-bottom: 30px;
         font-size: 16px;
-        line-height: 20px;
+        line-height: $nav-h;
         color: #fff;
         text-decoration: none;
         @include transition(transform .5s ease);
@@ -29,6 +31,54 @@
 
         .nav-title {
             @include flex(2);
+        }
+
+        /* 有子节点的nav item */
+        &.has-children {
+            @include flex-wrap(wrap);
+            height: $nav-h;
+            overflow: hidden;
+            @include transition(height .5s ease, transform .5s ease);
+            cursor: pointer;
+        }
+
+        .parent {
+            @include flexbox;
+            width: 100%;
+
+            > i {
+                @include flex(1);
+                font-size: 20px;
+                margin-right: 10px;
+            }
+
+            .nav-title {
+                @include flex(2);
+            }
+        }
+
+        .children {
+            margin: 10px 0 0 32px;
+
+            > li {
+                margin-bottom: 5px;
+
+                > a {
+                    padding: 2px 5px;
+                    color: #fff;
+                    text-decoration: none;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+
+                    &:hover {
+                        background-color: #fff;
+                        color: #666;
+                        @include border-radius(5px);
+                    }
+                }
+            }
         }
 
         @media screen and (max-width: #{$breakpoint-phone}) {
