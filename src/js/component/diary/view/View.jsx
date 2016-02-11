@@ -3,13 +3,14 @@ import {connect} from 'react-redux';
 import Calendar from 'rc-calendar';
 import DatePicker from 'rc-calendar/lib/Picker';
 import DateTimeFormat from 'gregorian-calendar-format';
+import moment from 'moment';
 import * as diaryAction from '../../../action/diaryAction';
-import {rawMarkup} from '../../../mixin/markup.js';
+import {rawMarkup} from '../../../mixin/markup';
+import Util from '../../../mixin/util'
 
 import './view.scss';
 import 'rc-calendar/assets/index.css';
 
-const dateFormatter = new DateTimeFormat('MMMM d, yyyy');
 const dateStringFormatter = new DateTimeFormat('yyyy-MM-dd');
 
 class View extends Component {
@@ -61,12 +62,14 @@ class View extends Component {
         let {dispatch} = this.props;
         let parsedDate = this.getYearAndMonthFrom(this.state.date);
         let changedYear = date.getYear();
-        let changedMonth = this.fillZero(date.getMonth() + 1);
+        let changedMonth = Util.fillZero(date.getMonth() + 1);
 
         if (parsedDate
             && (parsedDate.year != changedYear || parsedDate.month != changedMonth)) {
             dispatch(diaryAction.getDiariesByMonth(changedYear, changedMonth));
         }
+        // 变更curKey
+        dispatch(diaryAction.changeKey(changedYear, changedMonth));
     }
 
     /**
@@ -100,29 +103,13 @@ class View extends Component {
         return /\d{4}\-\d{2}-\d{2}/.test(date);
     }
 
-    /**
-     * 月、日不足两位补0
-     *
-     * @param {string|number} date 月或日
-     * @return {string}
-     */
-    fillZero(date) {
-        date = '' + date;
-        if (date && date.length < 2) {
-            return '0' + date; 
-        }
-        else {
-            return date;
-        }
-    }
-
     disabledDate(current) {
         let {diary: {list, curKey}} = this.props;
         let dateString = dateStringFormatter.format(current);
         let curDiaryList = list.get(curKey);
 
         if (!curDiaryList || curDiaryList.length < 1) {
-            return false;
+            return true;
         }
         else {
             let foundDiary = curDiaryList.find(item => item.dateString === dateString);
@@ -131,18 +118,41 @@ class View extends Component {
     }
     
     componentWillMount() {
+        let self = this;
         let {dispatch} = this.props;
         // 今天的年和月
         let now = new Date();
         let curYear = now.getFullYear();
-        let curMonth = this.fillZero(now.getMonth() + 1);
+        let curMonth = Util.fillZero(now.getMonth() + 1);
         let curDay = now.getDate();
 
         this.setState({
             date: `${curYear}-${curMonth}-${curDay}`
         });
 
-        dispatch(diaryAction.getDiariesByMonth(curYear, curMonth));
+        // 变更当月的curKey
+        dispatch(diaryAction.changeKey(curYear, curMonth))
+            .then((action) => {
+                // 请求当月的日记列表
+                dispatch(diaryAction.getDiariesByMonth(curYear, curMonth));
+            })
+            .then(() => {
+                // 请求最近一天的日记
+                dispatch(diaryAction.getLatestDiary(curYear, curMonth))
+                    .then(action => {
+                        if (action.error || !action.payload) {
+                            return;
+                        }
+
+                        let diary = action.payload;
+                        // 返回的结果更新页面
+                        self.setState({
+                            title: diary.title,
+                            content: diary.content,
+                            date: diary.dateString
+                        });
+                    });
+            });
     }
 
     /**
@@ -155,17 +165,21 @@ class View extends Component {
      *
      * @return {Object} jsx对象
      */
-    createDateInput({value}) {
+    createDateInput() {
+        let {date} = this.state;
+
         return (
-            <div className='date'>
+            <div 
+                className='date' 
+                style={{display: !!date ? 'block' : 'none'}}>
                 <i className='fa fa-calendar'></i>
-                <span>{value && dateFormatter.format(value) || new Date().toString()}</span>
+                <span>{date && moment(date, 'YYYY-MM-DD').format('MMMM D, YYYY')}</span>
             </div>
         );
     }
 
     render() {
-        let {title, content, dateString} = this.state;
+        let {title, content, date} = this.state;
         const calendar = (
             <Calendar
                 showDateInput={false}
@@ -183,7 +197,7 @@ class View extends Component {
                         <DatePicker
                             animation='slide-up'
                             calendar={calendar}>
-                            {this.createDateInput}
+                            {this.createDateInput.bind(this)}
                         </DatePicker>
                     </div>
                     <div 
