@@ -1,0 +1,33 @@
+/**
+ * 全站使用了github-markdown-css作为markdown的样式，这里对它做一些样式的覆盖
+ * github-markdown-css在最外层加了.markdown-body, 为了覆盖这里加了#wrapper来提高优先级
+ */
+@import 'global';
+
+.wrapper .markdown-body {
+
+    h1, h2 {
+        margin-bottom: 0;
+        border-bottom: 0;
+    }
+
+    a {
+        color: $blue;
+    }
+
+    pre {
+        padding: 10px;
+        background: url(../img/bg-code.png) top center #fdf6e3;
+        color: #657b83;
+        -webkit-text-size-adjust: none;
+        border-radius: 5px;
+        word-break: break-all;
+        word-wrap: break-word;
+    }
+
+    code {
+        font-family: 'Source Code Pro for Powerline', 'Consolas',  'monospace';
+        line-height: 1.5;
+        font-size: 16px;
+    }
+}

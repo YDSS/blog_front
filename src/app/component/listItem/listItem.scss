@@ -8,17 +8,19 @@
     border-bottom: 1px solid #eee;
 
     .title {
-        max-height: 114px;
+        max-height: 128px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
     .info-bar {
+        margin-bottom: 24px;
         font-size: 14px;
         line-height: 20px;
-        color: #333;
+        color: #9eabb3;
 
         .time {
+            margin-left: 5px;
             margin-right: 20px;
         }
     }

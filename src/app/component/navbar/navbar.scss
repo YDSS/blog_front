@@ -59,6 +59,7 @@ $nav-h: 20px;
 
         .children {
             margin: 10px 0 0 32px;
+            padding-left: 0;
 
             > li {
                 margin-bottom: 5px;
@@ -66,6 +67,7 @@ $nav-h: 20px;
                 > a {
                     padding: 2px 5px;
                     color: #fff;
+                    font-size: 14px;
                     text-decoration: none;
 
                     &:last-child {

@@ -27,7 +27,7 @@ class ListItem extends Component {
             <div className='list-item'>
                 <h1 className='title'>{data.title}</h1>
                 <div className='info-bar'>
-                    <span className='time'>{updatedAtFormat}</span>
+                    <i className='fa fa-calendar'></i><span className='time'>{updatedAtFormat}</span>
                     {data.tags ? tags : null}
                 </div>
                 <p className='abs'>{data.summary}</p>

@@ -38,6 +38,8 @@ gulp.task('template-watch', function () {
 gulp.task('webpack:build', function (done) {
     var myConf = Object.create(webpackConf);
 
+    // 编译结果直接放到blog_back中
+    myConf.output.path = path.resolve(paths.BACKEND, 'public');
     // 生产环境使用的插件，不要放到webpack.conf里
     myConf.plugins = myConf.plugins.concat(
         new webpack.DefinePlugin({

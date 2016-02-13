@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { rawMarkup } from '../../mixin/markup.js';
 
 import './article.scss';
-import '../../../css/markdown.css';
+// import '../../../css/markdown.css';
+import 'github-markdown-css';
+import '../../../scss/reset-markdown.scss';
 
 class Article extends Component {
 

@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "font-awesome": "^4.4.0",
+    "github-markdown-css": "^2.2.1",
     "highlight.js": "^8.9.1",
     "history": "^1.13.1",
     "isomorphic-fetch": "^2.2.0",

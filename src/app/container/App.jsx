@@ -24,7 +24,7 @@ class App extends Component {
             <div id='app'>
                 <Header />
                 <Sidebar navItem={navItem} />
-                <div className="body">
+                <div className="body markdown-body">
                     {children && this.renderChildren(other)}
                 </div>
             </div>
