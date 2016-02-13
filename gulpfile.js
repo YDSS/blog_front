@@ -9,7 +9,7 @@ var paths = require('./conf');
 gulp.task('default', ['webpack-dev-server', 'html-watch', 'template-watch']);
 // build development
 gulp.task('build-dev', ['webpack:build-dev'], function () {
-    gulp.watch(['./src/js/**/*'], ['webpack:build-dev']);
+    gulp.watch(['./src/app/**/*'], ['webpack:build-dev']);
 });
 
 // build production
@@ -65,6 +65,9 @@ gulp.task('webpack:build', function (done) {
 });
 
 var myDevConf = Object.create(webpackConf);
+
+// 加上hot-replace, 只在dev环境中使用
+// myDevConf.entry.app.unshift('webpack/hot/dev-server');
 myDevConf.devtool = 'source-map';
 myDevConf.debug = true;
 myDevConf.plugins = webpackConf.plugins.concat(
@@ -91,8 +94,8 @@ gulp.task('webpack:build-dev', ['html'], function (done) {
 
 gulp.task('webpack-dev-server', ['html', 'template'], function (done) {
     var myConf = Object.create(webpackConf);
-    // --inline的node api写法
-    myConf.entry.app.unshift("webpack-dev-server/client?http://localhost:8080");
+    // --inline的node api写法, 也加上hot-replace, 只在dev环境中使用
+    myConf.entry.app.unshift('webpack-dev-server/client?http://localhost:8080', 'webpack/hot/dev-server');
     myConf.devtool = 'source-map';
     myConf.debug = true;
     // 与后端服务器连接，需要full url，这里覆盖webpack.conf里的publicPath

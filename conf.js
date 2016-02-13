@@ -5,7 +5,7 @@ module.exports = {
     DIST: './dist',
     // DIST: './prod',
     BACKEND: path.resolve(__dirname, '../blog_back'),
-    ENTRY: './src/js/index.js',
+    ENTRY: './src/app/index.js',
     HTML: './src/index.html',
     TEMPLATE: './src/template' 
 }
