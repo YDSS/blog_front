@@ -5,7 +5,6 @@ import { createHistory } from 'history';
 import { reduxReactRouter } from 'redux-router';
 import rootReducer from '../reducer/index';
 
-let logger = createLogger();
 // compose middlewares
 let middleware = [thunk, apiMiddleware];
 // create store with initial state
