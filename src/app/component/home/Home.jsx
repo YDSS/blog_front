@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {fetchArticleByPage, updateCurPage} from '../../action/articleAction';
+import {loadArticleByPage, updateCurPage} from '../../action/articleAction';
 import ListItem from '../listItem/ListItem.jsx';
 import Pagination from '../pagination/Pagination.jsx';
 
@@ -45,7 +45,7 @@ class Home extends Component {
         let curPageList = list.get(curPage);
 
         if (!curPageList) {
-            dispatch(fetchArticleByPage(curPage, pageSize));
+            dispatch(loadArticleByPage(curPage, pageSize));
         }
         else {
             dispatch(updateCurPage(curPage));

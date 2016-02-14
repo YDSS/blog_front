@@ -21,6 +21,26 @@ class Util {
             return date;
         }
     }
+
+     /**
+     * 请求失败时通用的meta信息
+     * 
+     * @param {Object} res fetch api返回的response对象
+     * @return {Object} meta信息
+     */
+    static metaForFetchFail(res) {
+        if (res) {
+            notie.alert(1, res.statusText, 1);
+            return {
+                status: res.status,
+                statusText: res.statusText
+            };
+        } else {
+            return {
+                status: 'Network request failed'
+            };
+        }
+    }
 }
 
 export default Util;

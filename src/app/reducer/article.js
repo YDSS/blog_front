@@ -1,6 +1,6 @@
 import { 
-    ADD_ARTICLE, 
-    FETCH_ARTICLE_BY_PAGE,
+    ADD_ARTICLE_SUCCESS, 
+    GET_ARTICLE_BY_PAGE_SUCCESS,
     UPDATE_CURRENT_PAGE
 } from '../action/articleAction';
 
@@ -19,17 +19,17 @@ export default function article(state = initialState, action) {
     let {list} = state;
 
     switch (action.type) {
-        case ADD_ARTICLE:
+        case ADD_ARTICLE_SUCCESS:
             // 每新增一条，加到第一页的首位（文章顺序按时间倒序）
             let firstList = list.get(1);
-            firstList.unshift(action.data);
+            firstList.unshift(action.payload);
             return Object.assign({}, state, {
                 articleSum: ++state.articleSum,
                 list 
             });
             break;
-        case FETCH_ARTICLE_BY_PAGE:
-            var {curPage, pageList, articleSum} = action.data;
+        case GET_ARTICLE_BY_PAGE_SUCCESS:
+            var {curPage, pageList, articleSum} = action.payload;
             if (pageList) {
                 // 将当前页的数据按 curPage: list 的键值对格式放到state中
                 list.set(curPage, pageList);
@@ -42,7 +42,7 @@ export default function article(state = initialState, action) {
             });
             break;
         case UPDATE_CURRENT_PAGE:
-            var {curPage} = action.data; 
+            var {curPage} = action.payload; 
 
             return Object.assign({}, state, {
                 curPage

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
+import {rawMarkup} from '../../mixin/markup';
 
 import './listItem.scss';
 
@@ -30,7 +31,10 @@ class ListItem extends Component {
                     <i className='fa fa-calendar'></i><span className='time'>{updatedAtFormat}</span>
                     {data.tags ? tags : null}
                 </div>
-                <p className='abs'>{data.summary}</p>
+                <div 
+                    className='abs'
+                    dangerouslySetInnerHTML={rawMarkup(data.summary)}>
+                </div>
                 <div className='access-bar'>
                     <Link to={`/article/${data.id}`}>前往</Link>
                 </div>
