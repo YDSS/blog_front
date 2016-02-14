@@ -38,9 +38,7 @@ class View extends Component {
         
         let dateString = dateStringFormatter.format(date);
         dispatch(diaryAction.loadDiary(dateString))
-            .then(json => {
-                let diary = json.payload; 
-
+            .then(diary => {
                 self.setState({
                     title: diary.title,
                     content: diary.content,
