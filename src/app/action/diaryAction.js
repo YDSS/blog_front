@@ -85,7 +85,12 @@ export function loadDiary(dateString) {
             return Promise.resolve(cache);
         }
         else {
-            return dispatch(fetchDiary(dateString));
+            return dispatch(fetchDiary(dateString))
+                .then(json => {
+                    // 对component隐去payload，让从后端取回的数据格式与
+                    // cache保持一致
+                    return json.payload;
+                });
         }
     }
 }
