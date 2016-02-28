@@ -171,7 +171,7 @@ class View extends Component {
                 className='date' 
                 style={{display: !!date ? 'block' : 'none'}}>
                 <i className='fa fa-calendar'></i>
-                <span>{date && moment(date, 'YYYY-MM-DD').format('MMMM D, YYYY')}</span>
+                <span>{date && moment(date, 'YYYY-MM-DD').format('D MMMM, YYYY')}</span>
             </div>
         );
     }
