@@ -13,6 +13,7 @@ let routes = (
         <IndexRoute component={Home} />
         <Route path='home' component={Home} />
         <Route path='edit' component={Editor} />
+        <Route path='edit/:id' component={Editor} />
         <Route path='diary'>
             <Route path='upload' component={Upload} />
             <Route path='view' component={View} />

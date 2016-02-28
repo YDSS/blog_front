@@ -71,6 +71,74 @@ function addArticleRSSA(raw) {
     };
 }
 
+export const UPDATE_ARTICLE_REQUEST = 'UPDATE_ARTICLE_REQUEST';
+export const UPDATE_ARTICLE_SUCCESS = 'UPDATE_ARTICLE_SUCCESS';
+export const UPDATE_ARTICLE_FAIL = 'UPDATE_ARTICLE_FAIL';
+
+/**
+ * 编辑（修改）文章
+ *
+ * @param {Object} payload 文章信息，包括raw和更新时间
+ *
+ * @exports
+ */
+export function updateArticle(payload) {
+    return dispatch => {
+        return dispatch(updateArticleRSSA(payload));
+    };
+}
+
+/**
+ * 编辑文章RSSA
+ * 
+ * @param {Object} payload 文章信息，包括raw和更新时间
+ * @return {Object} RSSA
+ */
+function updateArticleRSSA(payload) {
+    return {
+        [CALL_API]: {
+            endpoint: `${articleApi}/update`,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: payload.id,
+                raw: encodeURIComponent(payload.raw),
+                updatedAt: payload.date
+            }),
+            types: [
+                UPDATE_ARTICLE_REQUEST,
+                {
+                    type: UPDATE_ARTICLE_SUCCESS,
+                    payload: (action, state, res) => {
+                        return res.json()
+                            .then(json => {
+                                if (json.errno !== 0) {
+                                    notie.alert(3, 'update article failed...', 1);
+                                    return null;
+                                }
+                                
+                                notie.alert(1, 'update article success!', 1);
+                                return json.data;
+                            })
+                            .catch(err => {
+                                console.log(err.message);   
+                            });
+                    }
+                },
+                {
+                    type: UPDATE_ARTICLE_FAIL,
+                    meta: (action, state, res) => {
+                        notie.alert(3, 'request failed...', 1);
+                        return Util.metaForFetchFail(res);
+                    }
+                }
+            ]
+        }
+    };
+}
+
 export const GET_ARTICLE_BY_PAGE_REQUEST = 'GET_ARTICLE_BY_PAGE_REQUEST';
 export const GET_ARTICLE_BY_PAGE_SUCCESS = 'GET_ARTICLE_BY_PAGE_SUCCESS';
 export const GET_ARTICLE_BY_PAGE_FAIL = 'GET_ARTICLE_BY_PAGE_FAIL';

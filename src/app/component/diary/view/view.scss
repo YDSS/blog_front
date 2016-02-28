@@ -1,15 +1,11 @@
 @import 'compass/css3';
 @import 'mixin/flexbox';
+@import 'ui/icon';
 
 .view {
     padding: 10px 10%;
 
     .date {
-        font-size: 14px;
-        color: #9EABB3;
-
-        > i {
-            margin-right: 5px;
-        }
+        @extend %date;
     }
 }

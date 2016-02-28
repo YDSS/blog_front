@@ -2,11 +2,18 @@
 @import 'compass/css3/box-sizing';
 @import 'compass/css3/transition';
 @import 'mixin/flexbox';
+@import 'ui/icon';
 
 .editor {
     width: 100%;
     padding: 20px;
     @include box-sizing(border-box);
+
+    .date {
+        margin-bottom: 10px;
+        @extend %date;
+        cursor: pointer;
+    }
 
     textarea {
         width: 100%;
