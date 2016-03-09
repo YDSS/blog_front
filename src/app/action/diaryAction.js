@@ -256,9 +256,9 @@ function fetchLatestDiary(year, month) {
             endpoint: `${fileApi}/findLatestDiary?year=${year}&month=${month}`,
             method: 'GET',
             types: [
-                GET_DIARY_REQUEST,
+                GET_LATEST_DIARY_REQUEST,
                 {
-                    type: GET_DIARY_SUCCESS,
+                    type: GET_LATEST_DIARY_SUCCESS,
                     payload: (action, state, res) => {
                         return res.json()
                             .then(json => {
@@ -276,7 +276,7 @@ function fetchLatestDiary(year, month) {
                     }
                 },
                 {
-                    type: GET_DIARY_FAIL,
+                    type: GET_LATEST_DIARY_FAIL,
                     meta: (action, state, res) => {
                         notie.alert(3, 'request failed...', 1);
                         return metaForFetchFail(res);

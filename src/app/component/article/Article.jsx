@@ -62,6 +62,8 @@ class Article extends Component {
 
     render() {
         let {title, content, updatedAt} = this.state;
+        // 权限设置，没有管理员权限不能使用edit
+        const auth = this.props.auth.auth;
         
         return (
             <article className='article'>
@@ -76,7 +78,10 @@ class Article extends Component {
                         </div>
                     </div>
                     <div className="column">
-                        <div className='header-btn-edit' onClick={this.edit.bind(this)}>
+                        <div 
+                            style={{display: (auth ? 'block' : 'none')}}
+                            className='header-btn-edit' 
+                            onClick={this.edit.bind(this)}>
                             <i className='fa fa-edit'></i>
                             <span>EDIT</span>
                         </div>

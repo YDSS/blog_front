@@ -41,6 +41,32 @@ class Util {
             };
         }
     }
+
+    /**
+     * 解析日记的文件名，获取year, month, day信息
+     *  文件名格式为：2016-03-09[.md]
+     *
+     * @param {string} diaryName 文件名，或者是dateString
+     * @return {Object|Null} year, month, day
+     */
+    static parseDiaryName(diaryName) {
+        if (!diaryName) {
+            return null;
+        }
+
+        let matches = diaryName.match(/(\d{4})-(\d{2})-(\d{2})/);
+
+        // 年月日加上input，应该返回一个长度为4的数组
+        if (!matches || matches.length !== 4) {
+            throw new Error('diary name has wrong format!');
+        }
+        
+        return {
+            year: matches[1],
+            month: matches[2],
+            day: matches[3]
+        };
+    }
 }
 
 export default Util;
