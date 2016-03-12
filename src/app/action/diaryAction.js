@@ -75,7 +75,9 @@ export function loadDiary(dateString) {
     return (dispatch, getState) => {
         // 遍历缓存中是否已有该日记，
         // 有则返回，没有则继续请求
-        let {list, curKey} = getState().diary;
+        let {list} = getState().diary;
+        let diaryDateInfo = Util.parseDiaryName(dateString);
+        let curKey = `${diaryDateInfo.year}-${diaryDateInfo.month}`;
         // 当前月的日记列表在日历翻到该月时就已经得到（后端请求），
         // 故不考虑为空的情况
         let cache = list.get(curKey).find(item => item.dateString === dateString);
@@ -149,21 +151,25 @@ export const GET_DIARIES_BY_MONTH_FAIL = 'GET_DIARIES_BY_MONTH_FAIL';
  *
  * @param {string|number} year 年
  * @param {string|number} month 月
+ * @param {boolean} forceRefresh 是否强制刷新，不理会cache
  *
  * @exports
  */
-export function getDiariesByMonth(year, month) {
+export function getDiariesByMonth(year, month, forceRefresh) {
     return (dispatch, getState) => {
         let {diary} = getState();
         // 日记按月归类的map中的key
         let dateKey = `${year}-${month}`;
-        let diaryOfKey = diary.list.get(dateKey);
+        let diaryList = diary.list.get(dateKey);
         
         // 若有缓存则不再请求，因为该action只是取by month的
         // 日记列表，如果reducer中已经存在则表示取过了
-        if (!diaryOfKey || diaryOfKey.length < 1) {
-            dispatch(fetchDiariesByMonth(year, month, dateKey));
+        if (!diaryList || diaryList.length < 1
+           || forceRefresh) {
+            return dispatch(fetchDiariesByMonth(year, month, dateKey));
         }
+
+        return Promise.resolve();
     };
 }
 
@@ -210,33 +216,6 @@ function fetchDiariesByMonth(year, month, dateKey) {
                 }
             ]
         }
-    };
-}
-
-export const CHANGE_KEY = 'CHANGE_KEY';
-
-/**
- * 改变curKey
- *
- * @param {Array} params 传入的参数，参数个数可以为1个或2个
- *  为1个表示传入的是标准的key(2015-01)，
- *  为2个表示传入的是year和month，需转换成key
- *
- * @exports
- */
-export function changeKey(...params) {
-    let key;
-
-    if (params.length === 1) {
-        key = params[0];
-    }
-    else if (params.length === 2) {
-        key = `${params[0]}-${Util.fillZero(params[1])}`;
-    }
-
-    return {
-        type: CHANGE_KEY,
-        payload: key
     };
 }
 

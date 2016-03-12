@@ -8,7 +8,6 @@ import {
     GET_DIARIES_BY_MONTH_REQUEST,
     GET_DIARIES_BY_MONTH_SUCCESS,
     GET_DIARIES_BY_MONTH_FAIL,
-    CHANGE_KEY,
     GET_LATEST_DIARY_REQUEST,
     GET_LATEST_DIARY_SUCCESS,
     GET_LATEST_DIARY_FAIL
@@ -17,8 +16,6 @@ import {
 import Util from '../mixin/util';
 
 const initialState = {
-    // 是否正在请求，防止重复请求
-    // isFetching: false,
     // 当前日历的年、月, 格式:2016-02，随日历next(pre) year
     // 按钮切换而改变，用来定位list: map中的日记列表
     curKey: '',
@@ -57,7 +54,9 @@ export default function diary(state = initialState, action) {
                 title: payload.title,
                 content: payload.content
             };
-            key = state.curKey;
+            let diaryDateInfo = Util.parseDiaryName(payload.dateString);
+            // 上传diary的key由dateString解析得到
+            key = `${diaryDateInfo.year}-${diaryDateInfo.month}`;
             diaryList = state.list.get(key);
 
             // 如果dateString已经存在，则覆盖其他属性
@@ -135,13 +134,6 @@ export default function diary(state = initialState, action) {
         //     });
         //     break;
 
-        case CHANGE_KEY:
-            let curKey = action.payload;
-
-            return Object.assign({}, state, {
-                curKey
-            });
-                
         default:
             return state;    
     }

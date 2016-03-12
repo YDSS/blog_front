@@ -74,7 +74,7 @@ class Article extends Component {
                             className='header-div-date' 
                             style={{display: !!updatedAt ? 'block' : 'none'}}>
                             <i className='fa fa-calendar'></i>
-                            <span>{updatedAt && moment(updatedAt, 'YYYY-MM-DD').format('D MMMM, YYYY')}</span>
+                            <span>{updatedAt && moment(new Date(updatedAt)).format('D MMMM, YYYY')}</span>
                         </div>
                     </div>
                     <div className="column">
