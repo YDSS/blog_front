@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {pushState} from 'redux-router';
 import {connect} from 'react-redux';
 import Calendar from 'rc-calendar';
 import DatePicker from 'rc-calendar/lib/Picker';
@@ -37,16 +38,10 @@ class View extends Component {
     onDateSelect(date) {
         let self = this;
         let {dispatch} = this.props;
+
         
         let dateString = dateStringFormatter.format(date);
-        dispatch(diaryAction.loadDiary(dateString))
-            .then(diary => {
-                self.setState({
-                    title: diary.title,
-                    content: diary.content,
-                    date: diary.dateString
-                });
-            });
+        dispatch(pushState(null, `/diary/view/${dateString}`));
     }
 
     /**
@@ -92,34 +87,78 @@ class View extends Component {
     
     componentWillMount() {
         let self = this;
-        let {dispatch} = this.props;
-        // 今天的年和月
+        let {dispatch, params: {date}} = this.props;
+
+        // 当前日期
         let now = new Date();
         let curYear = now.getFullYear();
         let curMonth = Util.fillZero(now.getMonth() + 1);
         let curDay = now.getDate();
 
-        // 请求当月的日记列表
-        dispatch(diaryAction.getDiariesByMonth(curYear, curMonth, true))
-            .then(() => {
-                // 请求最近一天的日记
-                dispatch(diaryAction.getLatestDiary(curYear, curMonth))
-                    .then(action => {
-                        if (action.error || !action.payload) {
-                            return;
-                        }
+        /**
+         * view的路由分两种，带日记日期的和不带的
+         * 带日期的话直接加载该日期的日记，不带则加载最近一天的日记
+         * 当月的日记列表无论哪种情况都要强制更新
+         */
+        if (!date) {
+            // 请求当月的日记列表
+            dispatch(diaryAction.getDiariesByMonth(curYear, curMonth, true))
+                .then(() => {
+                    // 请求最近一天的日记
+                    dispatch(diaryAction.getLatestDiary(curYear, curMonth))
+                        .then(action => {
+                            if (action.error || !action.payload) {
+                                return;
+                            }
 
-                        let diary = action.payload;
-                        // 返回的结果更新页面
-                        self.setState({
-                            title: diary.title,
-                            content: diary.content,
-                            date: diary.dateString,
-                            // dateString去掉最后的day即是日历时间
-                            calendarDate: diary.dateString.replace(/-\d+$/, '')
+                            let diary = action.payload;
+                            // 返回的结果更新页面
+                            self.setState({
+                                title: diary.title,
+                                content: diary.content,
+                                date: diary.dateString,
+                                // dateString去掉最后的day即是日历时间
+                                calendarDate: diary.dateString.replace(/-\d+$/, '')
+                            });
                         });
+                });
+        }
+        else {
+            dispatch(diaryAction.getDiariesByMonth(curYear, curMonth, true))
+                .then(() => {
+                    dispatch(diaryAction.loadDiary(date))
+                        .then(diary => {
+                            self.setState({
+                                title: diary.title,
+                                content: diary.content,
+                                date: diary.dateString,
+                                // dateString去掉最后的day即是日历时间
+                                calendarDate: diary.dateString.replace(/-\d+$/, '')
+                            });
+                        });
+                });
+        }
+    }
+
+    /**
+     * 路由/diary/view/:date更新时请求新的日记信息
+     *
+     * @param {Object} nextProps 更新后的props
+     */
+    componentWillReceiveProps(nextProps) {
+        let {dispatch, params: {date}} = nextProps;
+        let self = this;
+
+        if (date) {
+            dispatch(diaryAction.loadDiary(date))
+                .then(diary => {
+                    self.setState({
+                        title: diary.title,
+                        content: diary.content,
+                        date: diary.dateString
                     });
-            });
+                });
+        }
     }
 
     /**

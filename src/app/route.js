@@ -17,6 +17,7 @@ let routes = (
         <Route path='diary'>
             <Route path='upload' component={Upload} />
             <Route path='view' component={View} />
+            <Route path='view/:date' component={View} />
         </Route>
         <Route path='article/:id' component={Article} />
     </Route>
