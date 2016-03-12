@@ -23,7 +23,9 @@ class View extends Component {
             // 格式2015-12-22
             date: '',
             // markup之后的内容
-            content: ''
+            content: '',
+            // calendar当前的年月
+            calendarDate: ''
         };
     }
 
@@ -58,53 +60,26 @@ class View extends Component {
      */
     onYearOrMonthChange(date) {
         let {dispatch} = this.props;
-        let parsedDate = this.getYearAndMonthFrom(this.state.date);
         let changedYear = date.getYear();
+        // 日记的月和日都是两位数，即小余10用0补十位
         let changedMonth = Util.fillZero(date.getMonth() + 1);
+        // 当前日记的日期
+        let curDairyDate = Util.parseDiaryName(this.state.date);
 
-        if (parsedDate
-            && (parsedDate.year != changedYear || parsedDate.month != changedMonth)) {
+        this.setState({
+            calendarDate: `${changedYear}-${changedMonth}`
+        });
+
+        if (curDairyDate
+            && (curDairyDate.year != changedYear || curDairyDate.month != changedMonth)) {
             dispatch(diaryAction.getDiariesByMonth(changedYear, changedMonth));
         }
-        // 变更curKey
-        dispatch(diaryAction.changeKey(changedYear, changedMonth));
-    }
-
-    /**
-     * 解析日期(2015-01-22)的年、月
-     *
-     * @param {string} date 日期
-     * @return {Object|null} 年、月
-     */
-    getYearAndMonthFrom(date) {
-        if (date && typeof date === 'string'
-           && this.validateDateFormat(date)) {
-            let splits = date.split('-');
-
-            return {
-                year: splits[0],
-                month: splits[1]
-            };
-        }
-        else {
-            return null;
-        }
-    }
-
-    /**
-     * 校验日期格式，2016-01-02
-     *
-     * @param {string} date 日期
-     * @return {boolean}
-     */
-    validateDateFormat(date) {
-        return /\d{4}\-\d{2}-\d{2}/.test(date);
     }
 
     disabledDate(current) {
-        let {diary: {list, curKey}} = this.props;
+        let {diary: {list}} = this.props;
         let dateString = dateStringFormatter.format(current);
-        let curDiaryList = list.get(curKey);
+        let curDiaryList = list.get(this.state.calendarDate);
 
         if (!curDiaryList || curDiaryList.length < 1) {
             return true;
@@ -124,16 +99,8 @@ class View extends Component {
         let curMonth = Util.fillZero(now.getMonth() + 1);
         let curDay = now.getDate();
 
-        this.setState({
-            date: `${curYear}-${curMonth}-${curDay}`
-        });
-
-        // 变更当月的curKey
-        dispatch(diaryAction.changeKey(curYear, curMonth))
-            .then((action) => {
-                // 请求当月的日记列表
-                dispatch(diaryAction.getDiariesByMonth(curYear, curMonth));
-            })
+        // 请求当月的日记列表
+        dispatch(diaryAction.getDiariesByMonth(curYear, curMonth, true))
             .then(() => {
                 // 请求最近一天的日记
                 dispatch(diaryAction.getLatestDiary(curYear, curMonth))
@@ -147,7 +114,9 @@ class View extends Component {
                         self.setState({
                             title: diary.title,
                             content: diary.content,
-                            date: diary.dateString
+                            date: diary.dateString,
+                            // dateString去掉最后的day即是日历时间
+                            calendarDate: diary.dateString.replace(/-\d+$/, '')
                         });
                     });
             });
