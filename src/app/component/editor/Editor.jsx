@@ -4,8 +4,10 @@ import Calendar from 'rc-calendar';
 import moment from 'moment';
 import DatePicker from 'rc-calendar/lib/Picker';
 
-import { rawMarkup } from '../../mixin/markup.js';
+import { rawMarkup } from '../../mixin/markup';
 import * as articleAction from '../../action/articleAction';
+import * as diaryAction from '../../action/diaryAction';
+import Util from '../../mixin/util';
 
 import './editor.scss';
 
@@ -17,6 +19,10 @@ class Editor extends Component {
         this.state = {
             placeholder: 'write something?',
             text: '',
+            // 文章类型，修改文章有article和diary两种，写文章只有article
+            type: 'article',
+            // 文章id，或者是diary的dateString
+            id: null, 
             date: new Date(),
             preview: false,
             /**
@@ -29,26 +35,49 @@ class Editor extends Component {
 
     /**
      * 如果是修改文章，先从cache中取文章的raw和更新时间
-     *
-     * @type {LifeCircle}
      */
     componentWillMount() {
-        let {params} = this.props;
-        if (params.id) {
-            let {article: {list, curPage}} = this.props;
+        let {params: {id, type}} = this.props;
 
-            // 文章ID
-            let id = +params.id;
-            let curPageList = list.get(curPage);
-            let article = curPageList.find(item => {
-                return item.id === id;
-            });
+        // 通过type是否存在来判断是新增还是修改
+        if (type) {
+            if (type === 'article') {
+                let {article: {list, curPage}} = this.props;
 
-            this.setState({
-                text: article.raw,
-                date: article.updatedAt,
-                isAdd: false
-            });
+                // 数据库里id是number类型
+                id = +id;
+                let curPageList = list.get(curPage);
+                let article = curPageList.find(item => {
+                    return item.id === id;
+                });
+
+                this.setState({
+                    text: article.raw,
+                    date: article.updatedAt,
+                    isAdd: false,
+                    id
+                });
+            }
+            else if (type === 'diary') {
+                let {diary: {list}} = this.props;
+                let diaryDateInfo = Util.parseDiaryName(id);
+                let key = `${diaryDateInfo.year}-${diaryDateInfo.month}`;
+
+                let diaryList = list.get(key);
+
+                let diary = diaryList.find(item => {
+                    return item.dateString === id;
+                });
+
+                this.setState({
+                    // diary的markdown在数据库里title和content是分开存的，这里需要合并起来
+                    text: `${diary.content}`,
+                    date: diary.updatedAt,
+                    isAdd: false,
+                    type,
+                    id
+                });
+            }
         }
     }
 
@@ -122,7 +151,7 @@ class Editor extends Component {
         const raw = refs.textarea.value; 
         const {isAdd} = this.state;
         
-        // add new article
+        // 写文章
         if (isAdd) {
             dispatch(articleAction.addArticle(raw))
                 .then(() => {
@@ -134,20 +163,33 @@ class Editor extends Component {
                 });
         }
         else {
-            let {date} = this.state;
-            let {params: {id}} = this.props;
+            let {date, id, type} = this.state;
 
-            // 数据库里的id是number
-            id = +id;
-            dispatch(articleAction.updateArticle({
-                id,
-                raw,
-                date
-            }))
-                .then(action => {
-                    // 跳转到正文页
-                    dispatch(pushState(null, `/article/${action.payload.id}`));
-                });
+            switch (type) {
+                case 'article':
+                    dispatch(articleAction.updateArticle({
+                        id,
+                        raw,
+                        date
+                    }))
+                        .then(action => {
+                            // 跳转到正文页
+                            dispatch(pushState(null, `/article/${action.payload.id}`));
+                        });
+
+                    break;
+
+                case 'diary':
+                    dispatch(diaryAction.updateDairy({
+                        dateString: id,
+                        content: raw,
+                        date
+                    }))
+                        .then(action => {
+                            // 跳转到diary view页
+                            dispatch(pushState(null, `/diary/view/${action.payload.dateString}`));
+                        });
+            }
         }
     }
 

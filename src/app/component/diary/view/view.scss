@@ -5,7 +5,37 @@
 .view {
     padding: 10px 10%;
 
-    .date {
-        @extend %date;
+    .column {
+        @include flexbox;
+        
+        > div {
+            margin-right: 10px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
     }
+
+    // 标签的padding
+    %icon-padding {
+        padding: 2px 6px;
+    }
+
+    .header-date {
+        @extend %date;
+        // 这里是为了和带空白的icon对齐
+        @extend %icon-padding;
+
+        > i {
+            margin-right: 5px;
+        }
+    }
+
+    .header-btn-edit {
+        @extend %edit;
+        // hover态撑起周围的空白
+        @extend %icon-padding;
+    }
+
 }

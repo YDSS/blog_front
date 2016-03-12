@@ -57,7 +57,7 @@ class Article extends Component {
     edit() {
         const {dispatch} = this.props;
 
-        dispatch(pushState(null, `/edit/${this.state.id}`));
+        dispatch(pushState(null, `/edit/article/${this.state.id}`));
     }
 
     render() {
@@ -71,7 +71,7 @@ class Article extends Component {
                     <h1>{title}</h1>
                     <div className='column'>
                         <div 
-                            className='header-div-date' 
+                            className='header-date' 
                             style={{display: !!updatedAt ? 'block' : 'none'}}>
                             <i className='fa fa-calendar'></i>
                             <span>{updatedAt && moment(new Date(updatedAt)).format('D MMMM, YYYY')}</span>

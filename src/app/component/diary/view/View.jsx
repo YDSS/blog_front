@@ -176,16 +176,27 @@ class View extends Component {
 
         return (
             <div 
-                className='date' 
+                className='header-date' 
                 style={{display: !!date ? 'block' : 'none'}}>
                 <i className='fa fa-calendar'></i>
                 <span>{date && moment(date, 'YYYY-MM-DD').format('D MMMM, YYYY')}</span>
             </div>
         );
     }
+    
+    /**
+     * 修改日记，跳转到/edit页面
+     */
+    edit() {
+        const {dispatch} = this.props;
+
+        dispatch(pushState(null, `/edit/diary/${this.state.date}`));
+    }
 
     render() {
         let {title, content, date} = this.state;
+        const auth = this.props.auth.auth;
+
         const calendar = (
             <Calendar
                 showDateInput={false}
@@ -199,12 +210,21 @@ class View extends Component {
             <div className="view">
                 <article>
                     <h1>{title}</h1>
-                    <div className="calendar">
+                    <div className='column'>
                         <DatePicker
                             animation='slide-up'
                             calendar={calendar}>
                             {this.createDateInput.bind(this)}
                         </DatePicker>
+                    </div>
+                    <div className="column">
+                        <div 
+                            style={{display: (auth ? 'block' : 'none')}}
+                            className='header-btn-edit' 
+                            onClick={this.edit.bind(this)}>
+                            <i className='fa fa-edit'></i>
+                            <span>EDIT</span>
+                        </div>
                     </div>
                     <div 
                         className="content"
