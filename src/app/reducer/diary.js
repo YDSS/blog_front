@@ -10,7 +10,10 @@ import {
     GET_DIARIES_BY_MONTH_FAIL,
     GET_LATEST_DIARY_REQUEST,
     GET_LATEST_DIARY_SUCCESS,
-    GET_LATEST_DIARY_FAIL
+    GET_LATEST_DIARY_FAIL,
+    UPDATE_DIARY_REQUEST,
+    UPDATE_DIARY_SUCCESS,
+    UPDATE_DIARY_FAIL
 } from '../action/diaryAction';
 
 import Util from '../mixin/util';
@@ -42,6 +45,7 @@ export default function diary(state = initialState, action) {
 
         case GET_DIARY_SUCCESS:
         case GET_LATEST_DIARY_SUCCESS:
+        case UPDATE_DIARY_SUCCESS:
             payload = action.payload;
             // 未取到数据，payload都为null，可以以此为判断条件
             if (payload == null) {
@@ -52,7 +56,8 @@ export default function diary(state = initialState, action) {
                 dateString: payload.dateString,
                 id: payload.id,
                 title: payload.title,
-                content: payload.content
+                content: payload.content,
+                updatedAt: payload.updatedAt
             };
             let diaryDateInfo = Util.parseDiaryName(payload.dateString);
             // 上传diary的key由dateString解析得到
@@ -84,7 +89,8 @@ export default function diary(state = initialState, action) {
                 dateString: payload.dateString,
                 id: payload.id,
                 title: payload.title,
-                content: payload.content
+                content: payload.content,
+                updatedAt: payload.updatedAt
             };
             let uploadDate = Util.parseDiaryName(uploadDiary.dateString);
             // 上传diary的key由dateString解析得到

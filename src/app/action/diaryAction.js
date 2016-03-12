@@ -2,7 +2,7 @@ import {CALL_API} from 'redux-api-middleware';
 import notie from 'notie';
 import Util from '../mixin/util';
 
-const fileApi = '/api/file';
+const diaryApi = '/api/diary';
 
 export const UPLOAD_DIARY_REQUEST = 'UPLOAD_DIARY_REQUEST';
 export const UPLOAD_DIARY_SUCCESS = 'UPLOAD_DIARY_SUCCESS';
@@ -52,7 +52,7 @@ function saveUpload(file) {
                     }
                 }
             ],
-            endpoint: `${fileApi}/upload`,
+            endpoint: `${diaryApi}/upload`,
             method: 'POST',
             body: file
         }
@@ -108,7 +108,7 @@ export function loadDiary(dateString) {
 function fetchDiary(dateString) {
     return {
         [CALL_API]: {
-            endpoint: `${fileApi}/find?dateString=${dateString}`,
+            endpoint: `${diaryApi}/find?dateString=${dateString}`,
             method: 'GET',
             types: [
                 GET_DIARY_REQUEST,
@@ -185,7 +185,7 @@ export function getDiariesByMonth(year, month, forceRefresh) {
 function fetchDiariesByMonth(year, month, dateKey) {
     return {
         [CALL_API]: {
-            endpoint: `${fileApi}/findByMonth?year=${year}&month=${month}`,
+            endpoint: `${diaryApi}/findByMonth?year=${year}&month=${month}`,
             method: 'GET',
             types: [
                 GET_DIARIES_BY_MONTH_REQUEST,
@@ -232,7 +232,7 @@ export const GET_LATEST_DIARY_FAIL = 'GET_LATEST_DIARY_FAIL';
 function fetchLatestDiary(year, month) {
     return {
         [CALL_API]: {
-            endpoint: `${fileApi}/findLatestDiary?year=${year}&month=${month}`,
+            endpoint: `${diaryApi}/findLatestDiary?year=${year}&month=${month}`,
             method: 'GET',
             types: [
                 GET_LATEST_DIARY_REQUEST,
@@ -278,6 +278,79 @@ export function getLatestDiary(year, month) {
     return (dispatch, getState) => {
         return dispatch(fetchLatestDiary(year, month));
     };
+}
+
+export const UPDATE_DIARY_REQUEST = 'UPDATE_DIARY_REQUEST';
+export const UPDATE_DIARY_SUCCESS = 'UPDATE_DIARY_SUCCESS';
+export const UPDATE_DIARY_FAIL = 'UPDATE_DIARY_FAIL';
+
+/**
+ * 修改日记, RSAA
+ * 
+ * @param {Object} payload 修改所需数据 
+ *  @property {string} dateString 日记的日期，也是日记的唯一标识
+ *  @property {string} content 日记内容，日记title不能修改
+ *  @property {Date} date 修改时间
+ *
+ * @return {Object} RSAA
+ */
+function updateDairyRSAA(payload) {
+    let {dateString, content, date} = payload;
+
+    return {
+        [CALL_API]: {
+            endpoint: `${diaryApi}/update`,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                dateString,
+                content,
+                date
+            }),
+            types: [
+                UPDATE_DIARY_REQUEST,
+                {
+                    type: UPDATE_DIARY_SUCCESS,
+                    payload: (action, state, res) => {
+                        return res.json()
+                            .then(json => {
+                                if (json.errno === 0 && json.data) {
+                                    notie.alert(1, 'update diary success!', 1);
+                                    return json.data;
+                                }
+                                else {
+                                    notie.alert(2, 'update diary failed...', 1);
+                                    return null;
+                                }
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
+                    }
+                },
+                {
+                    type: UPDATE_DIARY_FAIL,
+                    meta: (action, state, res) => {
+                        notie.alert(3, 'request failed...', 1);
+                        return metaForFetchFail(res);
+                    }
+                }
+            ]
+        }
+    };
+}
+
+/**
+ * 修改日记
+ *
+ * @exports
+ */
+export function updateDairy(payload) {
+    return (dispatch, getState) => {
+        return dispatch(updateDairyRSAA(payload));
+    }
 }
 
 /**
