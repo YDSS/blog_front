@@ -3,6 +3,7 @@ import { pushState } from 'redux-router';
 import Calendar from 'rc-calendar';
 import moment from 'moment';
 import DatePicker from 'rc-calendar/lib/Picker';
+import locale from 'rc-calendar/lib/locale/zh_CN';
 
 import { rawMarkup } from '../../mixin/markup';
 import * as articleAction from '../../action/articleAction';
@@ -201,6 +202,8 @@ class Editor extends Component {
         const calendar = (
             <Calendar
                 showDateInput={false}
+                /* 设置本地时间为中国时区，不然可能出现时差，rc-calendar默认时区是en_US */
+                locale={locale}
                 onSelect={this.onChangeDate.bind(this)}
             />
         );
