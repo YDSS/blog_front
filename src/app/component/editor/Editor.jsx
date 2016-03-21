@@ -3,7 +3,6 @@ import { pushState } from 'redux-router';
 import Calendar from 'rc-calendar';
 import moment from 'moment';
 import DatePicker from 'rc-calendar/lib/Picker';
-import locale from 'rc-calendar/lib/locale/zh_CN';
 
 import { rawMarkup } from '../../mixin/markup';
 import * as articleAction from '../../action/articleAction';
@@ -111,11 +110,6 @@ class Editor extends Component {
      * @param {GregorianCalendar} date GregorianCalendar日期
      */
     onChangeDate(date) {
-        // GregorianCalendar的getTime得到的时间戳，转换成原生Date会多出一天来，
-        // 这里先做修正，把多出来的一天减掉，等作者回复，issue：https://github.com/yiminghe/gregorian-calendar/issues/6
-        let dayOfMonth = date.getDayOfMonth();
-        date.setDayOfMonth(dayOfMonth - 1);
-
         // state.date是从后端传过来的，在存储时直接使用js原生的Date
         // 在这里需要把GregorianCalendar转成原生Date类型
         let originalDate = new Date(date.getTime());
@@ -202,8 +196,6 @@ class Editor extends Component {
         const calendar = (
             <Calendar
                 showDateInput={false}
-                /* 设置本地时间为中国时区，不然可能出现时差，rc-calendar默认时区是en_US */
-                locale={locale}
                 onSelect={this.onChangeDate.bind(this)}
             />
         );
