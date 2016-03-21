@@ -110,11 +110,6 @@ class Editor extends Component {
      * @param {GregorianCalendar} date GregorianCalendar日期
      */
     onChangeDate(date) {
-        // GregorianCalendar的getTime得到的时间戳，转换成原生Date会多出一天来，
-        // 这里先做修正，把多出来的一天减掉，等作者回复，issue：https://github.com/yiminghe/gregorian-calendar/issues/6
-        let dayOfMonth = date.getDayOfMonth();
-        date.setDayOfMonth(dayOfMonth - 1);
-
         // state.date是从后端传过来的，在存储时直接使用js原生的Date
         // 在这里需要把GregorianCalendar转成原生Date类型
         let originalDate = new Date(date.getTime());
