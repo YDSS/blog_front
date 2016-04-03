@@ -1,10 +1,15 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {loadArticleByPage, updateCurPage} from '../../action/articleAction';
-import ListItem from '../listItem/ListItem.jsx';
-import Pagination from '../pagination/Pagination.jsx';
+import ArtListItem from '../../component/artListItem/ArtListItem.jsx';
+import Pagination from '../../component/pagination/Pagination.jsx';
 
 import './home.scss';
 
+@connect(
+    state => ({article: state.article}),
+    {loadArticleByPage, updateCurPage}
+)
 class Home extends Component {
 
     constructor(props) {
@@ -41,14 +46,15 @@ class Home extends Component {
      * @param {number} curPage 当前页码
      */
     fetchPageListIfNeeded(curPage) {
-        let {dispatch, article: {list, pageSize}} = this.props;
+        let {article: {list, pageSize}, loadArticleByPage, updateCurPage} = this.props;
         let curPageList = list.get(curPage);
 
         if (!curPageList) {
-            dispatch(loadArticleByPage(curPage, pageSize));
+            // dispatch(loadArticleByPage(curPage, pageSize));
+            loadArticleByPage(curPage, pageSize);
         }
         else {
-            dispatch(updateCurPage(curPage));
+            updateCurPage(curPage);
         }
     }
 
@@ -60,7 +66,8 @@ class Home extends Component {
             <div className='home'>
                 <div className='list-group'>
                     {curPageList && curPageList.slice(0, pageSize).map(item => 
-                        <ListItem data={item} key={item.id} />
+                        // key是给react使用的 
+                        <ArtListItem item={item} key={item.id} />
                     )}
                 </div>
                 <Pagination 

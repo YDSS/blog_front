@@ -1,24 +1,27 @@
-import React, { Component } from 'react';
+import React, {Component, PropTypes} from 'react';
 
 import './avatar.scss';
 
-class Avatar extends Component {
+/**
+ * 头像组件，stateless component
+ *
+ * @param {Object} props props属性
+ * @author YDSS
+ */
+const Avatar = (props) => {
+    const {name, avatarUrl} = props;
 
-    static defaultProps = {
-        // 我的用户名
-        author: 'YDSS',
-        // 头像url
-        avatar: require('../../../img/avatar.png')
-    };
-
-    render() {
-        return (
-            <div className='avatar'>
-                <img src={this.props.avatar} alt='avatar'/>
-                <p>{this.props.author}</p>
-            </div>
-        );
-    }
+    return (
+        <div className='avatar'>
+            <img src={avatarUrl} alt={name}/>
+            <p>{name}</p>
+        </div>
+    );   
 }
+
+Avatar.propTypes = {
+    name: PropTypes.string.isRequired,
+    avatarUrl: PropTypes.string.isRequired
+};
 
 export default Avatar;

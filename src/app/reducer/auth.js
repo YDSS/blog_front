@@ -1,5 +1,5 @@
 const initialState = {
-    auth: serverData.auth
+    auth: __data.auth
 };
 
 export default function auth(state = initialState, action) {

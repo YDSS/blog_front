@@ -45,7 +45,7 @@ $header-h: 50px;
             display: block;
             width: $thumbnail-w;
             height: $thumbnail-w;
-            background: url(/img/avatar.png) no-repeat;
+            background-repeat: no-repeat;
             background-size: $thumbnail-w auto;
             @include border-radius(20%);
         }

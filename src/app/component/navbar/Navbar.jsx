@@ -1,13 +1,9 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router';
+import React, {Component, PropTypes} from 'react';
+import {Link} from 'react-router';
 
 import './navbar.scss';
 
 class Navbar extends Component {
-
-    constructor(props) {
-        super(props);
-    }
 
     /**
      * 生成指向内部路由的链接
@@ -140,5 +136,9 @@ class Navbar extends Component {
         );
     }
 }
+
+Navbar.propTypes = {
+    navItem: PropTypes.array.isRequired
+};
 
 export default Navbar;

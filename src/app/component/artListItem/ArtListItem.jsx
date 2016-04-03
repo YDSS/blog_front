@@ -1,42 +1,48 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router';
+import React, {Component, PropTypes} from 'react';
+import {Link} from 'react-router';
 import moment from 'moment';
 import {rawMarkup} from '../../mixin/markup';
 
-import './listItem.scss';
+import './artListItem.scss';
 
-class ListItem extends Component {
+/**
+ * /home即文章列表页文章item组件
+ *
+ * @author YDSS
+ */
+class ArtListItem extends Component {
 
     render() {
-        const { data } = this.props;
-        let tags;
+        const {item} = this.props;
+        let {id, title, summary, tags, updatedAt} = item;
+        // tags的JSX对象
+        let Jtags;
 
-        if (data.tags) {
-            tags = (
+        if (tags) {
+            Jtags = (
                 <div className='tags'>
-                    {data.tags.map(this.createTag)}
+                    {tags.map(this.createTag)}
                 </div>
             );
         }
 
         // 更新时间和创建时间都是mysql Date类型
-        let {updatedAt} = data;
         let formatPattern = 'DD MMMM, YYYY';
         let updatedAtFormat = moment(new Date(updatedAt)).format(formatPattern);
 
         return (
             <div className='list-item'>
-                <h1 className='title'>{data.title}</h1>
+                <h1 className='title'>{title}</h1>
                 <div className='info-bar'>
                     <i className='fa fa-calendar'></i><span className='time'>{updatedAtFormat}</span>
-                    {data.tags ? tags : null}
+                    {tags ? Jtags : null}
                 </div>
                 <div 
                     className='abs'
-                    dangerouslySetInnerHTML={rawMarkup(data.summary)}>
+                    dangerouslySetInnerHTML={rawMarkup(summary)}>
                 </div>
                 <div className='access-bar'>
-                    <Link to={`/article/${data.id}`}>前往</Link>
+                    <Link to={`/article/${id}`}>前往</Link>
                 </div>
             </div>
         );
@@ -49,4 +55,9 @@ class ListItem extends Component {
     }
 }
 
-export default ListItem;
+ArtListItem.propTypes = {
+    // 文章信息
+    item: PropTypes.object.isRequired
+};
+
+export default ArtListItem;

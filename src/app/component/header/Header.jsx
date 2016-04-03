@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 
 import './header.scss';
 
@@ -32,6 +32,9 @@ class Header extends Component {
     }
 
     render() {
+        let {avatarUrl} = this.props;
+        avatarUrl = `url(${avatarUrl})`;
+
         return (
             <header className='header'>
                 <div className='left'>
@@ -40,11 +43,17 @@ class Header extends Component {
                         onClick={this.moveRight.bind(this)}></i>
                 </div>
                 <div className='right'>
-                    <i className='avatar-thumbnail'></i>
+                    <i 
+                        style={{backgroundImage: avatarUrl}}
+                        className='avatar-thumbnail'></i>
                 </div>
             </header>
         );
     }
 }
+
+Header.propTypes = {
+    avatarUrl: PropTypes.string.isRequired
+};
 
 export default Header;

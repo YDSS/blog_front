@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import App from './container/App.jsx';
-import Home from './component/home/Home.jsx';
-import Editor from './component/editor/Editor.jsx';
-import Article from './component/article/Article.jsx';
+import App from './container/app/App.jsx';
+import Home from './container/home/Home.jsx';
+import Editor from './container/editor/Editor.jsx';
+import Article from './container/article/Article.jsx';
 import Upload from './component/diary/upload/Upload.jsx';
 import View from './component/diary/view/View.jsx';
 

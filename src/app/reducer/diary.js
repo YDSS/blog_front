@@ -62,16 +62,23 @@ export default function diary(state = initialState, action) {
             let diaryDateInfo = Util.parseDiaryName(payload.dateString);
             // 上传diary的key由dateString解析得到
             key = `${diaryDateInfo.year}-${diaryDateInfo.month}`;
+            // 缓存中的月列表
             diaryList = state.list.get(key);
 
-            // 如果dateString已经存在，则覆盖其他属性
-            newDiaryList = diaryList.map(item => {
-                if (item.dateString === newDiary.dateString) {
-                    return Object.assign({}, item, newDiary);
-                }
+            // 若当月没有在list里缓存则直接写入，
+            // 否则如果dateString已经存在，则覆盖其他属性
+            if (diaryList && diaryList.length > 0) {
+                newDiaryList = diaryList.map(item => {
+                    if (item.dateString === newDiary.dateString) {
+                        return Object.assign({}, item, newDiary);
+                    }
 
-                return item;
-            });
+                    return item;
+                });
+            }
+            else {
+                newDiaryList = [newDiary];
+            }
 
             return Object.assign({}, state, {
                 list: state.list.set(key, newDiaryList)

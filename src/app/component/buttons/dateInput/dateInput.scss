@@ -1,0 +1,10 @@
+@import 'ui/icon';
+
+.date-input {
+    font-size: $fs;
+    color: $fc-readonly;
+
+    > i {
+        margin-right: 5px;
+    }
+}

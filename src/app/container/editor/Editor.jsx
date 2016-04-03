@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { pushState } from 'redux-router';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {pushState} from 'redux-router';
 import Calendar from 'rc-calendar';
 import moment from 'moment';
 import DatePicker from 'rc-calendar/lib/Picker';
@@ -11,6 +12,10 @@ import Util from '../../mixin/util';
 
 import './editor.scss';
 
+@connect(
+    state => ({article: state.article, diary: state.diary}),
+    {pushState}
+)
 class Editor extends Component {
 
     constructor(props) { 
@@ -151,7 +156,7 @@ class Editor extends Component {
             dispatch(articleAction.addArticle(raw))
                 .then(() => {
                     // route to home
-                    dispatch(pushState(null, '/home'));
+                    pushState(null, '/home');
                 })
                 .catch(err => {
                     console.log(err.message);   
@@ -169,7 +174,7 @@ class Editor extends Component {
                     }))
                         .then(action => {
                             // 跳转到正文页
-                            dispatch(pushState(null, `/article/${action.payload.id}`));
+                            pushState(null, `/article/${action.payload.id}`);
                         });
 
                     break;
@@ -182,7 +187,7 @@ class Editor extends Component {
                     }))
                         .then(action => {
                             // 跳转到diary view页
-                            dispatch(pushState(null, `/diary/view/${action.payload.dateString}`));
+                            pushState(null, `/diary/view/${action.payload.dateString}`);
                         });
             }
         }

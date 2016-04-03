@@ -1,8 +1,16 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import Sidebar from '../component/sidebar/Sidebar.jsx';
-import Header from '../component/header/Header.jsx';
+import Sidebar from '../sidebar/Sidebar.jsx';
+import Header from '../../component/header/Header.jsx';
 
+@connect(state => ({
+    // state.router is state of redux-router for routing
+    // must be return as name router
+    router: state.router,
+    navItem: state.navItem,
+    diary: state.diary,
+    auth: state.auth
+}))
 class App extends Component {
 
     renderChildren(...props) {
@@ -19,11 +27,15 @@ class App extends Component {
 
     render() {
         const { children,  navItem, ...other } = this.props;
+        // 头像url，Header组件和Sidebar组件都用到，因此在app中保存
+        const avatarUrl = require('../../../img/avatar.png');
+        // 头像title
+        const name = 'YDSS';
 
         return (
             <div id='app'>
-                <Header />
-                <Sidebar navItem={navItem} />
+                <Header avatarUrl={avatarUrl}/>
+                <Sidebar avatarUrl={avatarUrl} name={name}/>
                 <div className="body markdown-body">
                     {children && this.renderChildren(other)}
                 </div>
@@ -32,19 +44,4 @@ class App extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        // state.router is state of redux-router for routing
-        // must be return as name router
-        router: state.router,
-        navItem: state.navItem,
-        diary: state.diary,
-        auth: state.auth,
-        article: state.article
-    }
-}
-
-
-export default connect(
-    mapStateToProps
-)(App);
+export default App;
