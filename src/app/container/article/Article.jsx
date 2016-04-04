@@ -4,7 +4,8 @@ import {pushState} from 'redux-router';
 import moment from 'moment';
 
 import Page from '../../component/page/Page.jsx';
-import DateInput from '../../component/buttons/dateInput/DateInput.jsx';
+import DateLabel from '../../component/smallUI/dateLabel/DateLabel.jsx';
+import EditBtn from '../../component/smallUI/editBtn/EditBtn.jsx';
 import { rawMarkup } from '../../mixin/markup.js';
 
 import './article.scss';
@@ -12,7 +13,7 @@ import 'github-markdown-css';
 import '../../../scss/reset-markdown.scss';
 
 @connect(
-    state => ({article: state.article}),
+    state => ({article: state.article, auth: state.auth}),
     {pushState}
 )
 class Article extends Component {
@@ -69,15 +70,20 @@ class Article extends Component {
     render() {
         let {id, title, content, updatedAt} = this.state;
         // 权限设置，没有管理员权限不能使用edit
-        const auth = this.props.auth.auth;
-        
+        const {auth} = this.props;
+
         return (
             <Page
                 id={id}
                 title={title}
                 content={content}
-                date={updatedAt}>
-                <DateInput date={updatedAt}/>
+                toolbar={{
+                    DateComponent: <DateLabel date={updatedAt}/>,
+                    EditBtn: (auth 
+                        ? <EditBtn link={this.edit.bind(this)}/>
+                        : null
+                    )
+                }}>
             </Page>
         );
         // return (

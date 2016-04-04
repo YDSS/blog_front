@@ -1,0 +1,22 @@
+@import 'ui/icon';
+@import 'compass/css3/border-radius';
+
+.edit-btn {
+    @extend %ui;
+
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size: $fs;
+    color: $fc-clickable;
+
+    i {
+        margin-right: 5px;
+    }
+
+    &:hover {
+        color: #fff;
+        background-color: $fc-clickable;
+        @include border-radius(5px);
+        cursor: pointer;
+    }
+}

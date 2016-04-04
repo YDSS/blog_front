@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import moment from 'moment';
 
 import {rawMarkup} from '../../mixin/markup';
 import Util from '../../mixin/util'
@@ -13,62 +12,29 @@ import './page.scss';
  */
 class Page extends Component {
 
-    /**
-     * Datepicker的子元素，显示当前时间
-     *  DatePicker组件必须传递children，用来显示输入框
-     *
-     * @param {Object} state datepicker的状态
-     *  @property {GregorianCalendar} value 选中的日期
-     *  @property {boolean} open datepicker是否被打开（显示calendar）
-     *
-     * @return {Object} jsx对象
-     */
-    createDateInput() {
-        let {date} = this.state;
-
-        return (
-            <div 
-                className='header-date' 
-                style={{display: !!date ? 'block' : 'none'}}>
-                <i className='fa fa-calendar'></i>
-                <span>{date && moment(date, 'YYYY-MM-DD').format('D MMMM, YYYY')}</span>
-            </div>
-        );
-    }
-
     render() {
-        const {title, content, date, tags, children} = this.props;
+        const {title, content, tags, toolbar} = this.props;
+        const {DateComponent, EditBtn} = toolbar;
         // const auth = this.props.auth.auth;
-
-        // const calendar = (
-        //     <Calendar
-        //         showDateInput={false}
-        //         disabledDate={disabledDate ? disabledDate : null}
-        //         onSelect={onSelect ? onSelect : null}
-        //         onChange={onChange ? onChange : null}
-        //     />
-        // );
-
+        
         return (
             <div className="page">
                 <article>
-                    <h1>{title}</h1>
-                    {!!DateInput &&
-                        <div className='column'>
-                            <DateInput date={date}/>
+                    <header>
+                        <h1>{title}</h1>
+                        <div className='toolbar'>
+                            {!!DateComponent &&
+                                <div className='column'>
+                                    {DateComponent}
+                                </div>
+                            }
+                            {!!EditBtn &&
+                                <div className='column'>
+                                    {EditBtn}
+                                </div>
+                            }
                         </div>
-                    }
-                    {/*
-                    <div className="column">
-                        <div 
-                            style={{display: (auth ? 'block' : 'none')}}
-                            className='header-btn-edit' 
-                            onClick={this.edit.bind(this)}>
-                            <i className='fa fa-edit'></i>
-                            <span>EDIT</span>
-                        </div>
-                    </div>
-                    */}
+                    </header>
                     <div 
                         className="content"
                         dangerouslySetInnerHTML={rawMarkup(content)}></div>
@@ -86,16 +52,20 @@ Page.propTypes = {
         PropTypes.number
     ]).isRequired,
     title: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
     content: PropTypes.string,
     tags: PropTypes.array,
     disabledDate: PropTypes.func,
     onSelect: PropTypes.func,
     onChange: PropTypes.func,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.element),
-        PropTypes.element
-    ])
+    /**
+     * Page的Toolbar里可以插入的组件
+     */
+    toolbar: PropTypes.shape({
+        // 日期
+        DateComponent: PropTypes.element.isRequired,
+        // edit按钮
+        EditBtn: PropTypes.element
+    })
 };
 
 export default Page;

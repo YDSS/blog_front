@@ -4,34 +4,10 @@
 $fs: 14px;
 $fc-readonly: #9eabb3;
 $fc-clickable: $blue;
+// 按钮的水平填充，有一些按钮hover时有背景色，每个按钮都加上填充能保证对齐
+$padding-horizon: 6px;
 
-/**
- * 日期icon
- */
-%date {
-    font-size: $fs;
-    color: $fc-readonly;
-
-    > i {
-        margin-right: 5px;
-    }
-}
-
-/**
- * 编辑icon
- */
-%edit {
-    font-size: $fs;
-    color: $fc-clickable;
-
-    > i {
-        margin-right: 5px;
-    }
-
-    &:hover {
-        color: #fff;
-        background-color: $fc-clickable;
-        @include border-radius(5px);
-        cursor: pointer;
-    }
+%ui {
+    padding-left: $padding-horizon;
+    padding-right: $padding-horizon;
 }

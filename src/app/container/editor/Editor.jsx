@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {pushState} from 'redux-router';
-import Calendar from 'rc-calendar';
-import moment from 'moment';
-import DatePicker from 'rc-calendar/lib/Picker';
 
-import { rawMarkup } from '../../mixin/markup';
+import DateInput from '../../component/smallUI/dateInput/DateInput.jsx';
+import {rawMarkup} from '../../mixin/markup';
 import * as articleAction from '../../action/articleAction';
 import * as diaryAction from '../../action/diaryAction';
 import Util from '../../mixin/util';
@@ -84,30 +82,7 @@ class Editor extends Component {
                 });
             }
         }
-    }
-
-    /**
-     * Datepicker的子元素，显示当前时间
-     *  DatePicker组件必须传递children，用来显示输入框
-     *
-     * @param {Object} state datepicker的状态
-     *  @property {GregorianCalendar} value 选中的日期
-     *  @property {boolean} open datepicker是否被打开（显示calendar）
-     *
-     * @return {Object} jsx对象
-     */
-    createDateInput() {
-        let {date} = this.state;
-
-        return (
-            <div 
-                className='date' 
-                style={{display: !!date ? 'block' : 'none'}}>
-                <i className='fa fa-calendar'></i>
-                <span>{date && moment(date).format('D MMMM, YYYY')}</span>
-            </div>
-        );
-    }
+    } 
 
     /**
      * 更新state.date
@@ -146,7 +121,7 @@ class Editor extends Component {
      * @event
      */
     onSubmit() {
-        const { dispatch } = this.props;
+        const {dispatch, pushState} = this.props;
         const refs = this.refs;
         const raw = refs.textarea.value; 
         const {isAdd} = this.state;
@@ -186,33 +161,25 @@ class Editor extends Component {
                         date
                     }))
                         .then(action => {
-                            // 跳转到diary view页
-                            pushState(null, `/diary/view/${action.payload.dateString}`);
+                            // 跳转到diary read页
+                            pushState(null, `/diary/read/${action.payload.dateString}`);
                         });
             }
         }
     }
 
     render() {
-        const prevState = this.state.preview;
-        let displayText = prevState ? 'none' : 'block';
-        let displayView = prevState ? 'block' : 'none';
-
-        const calendar = (
-            <Calendar
-                showDateInput={false}
-                onSelect={this.onChangeDate.bind(this)}
-            />
-        );
+        const {date, preview} = this.state;
+        // const prevState = this.state.preview;
+        let displayText = preview ? 'none' : 'block';
+        let displayView = preview ? 'block' : 'none';
 
         return (
             <div className='editor'>
-                <div className="calendar">
-                    <DatePicker
-                        animation='slide-up'
-                        calendar={calendar}>
-                        {this.createDateInput.bind(this)}
-                    </DatePicker>
+                <div className='datepicker'>
+                    <DateInput 
+                        date={date}
+                        onSelect={this.onChangeDate.bind(this)}/>
                 </div>
                 <textarea
                     placeholder={this.state.placeholder} 

@@ -1,10 +1,16 @@
 import React, {Component, PropTypes} from 'react';
 import Calendar from 'rc-calendar';
 import DatePicker from 'rc-calendar/lib/Picker';
-import DateTimeFormat from 'gregorian-calendar-format';
+import moment from 'moment';
 
 import './dateInput.scss';
+import 'rc-calendar/assets/index.css';
 
+/**
+ * 日期组件，可以选择日期
+ *
+ * @author YDSS
+ */
 class DateInput extends Component {
 
     /**
@@ -21,12 +27,11 @@ class DateInput extends Component {
         let {date} = this.props;
         let hasDate = !!date;
         let formatDate = hasDate 
-            ? moment(date, 'YYYY-MM-DD').format('D MMMM, YYYY')
+            ? moment(date).format('DD MMMM, YYYY')
             : '';
 
         return (
             <div 
-                className='header-date'
                 style={{display: (hasDate ? 'block' : 'none')}}>
                 <i className='fa fa-calendar'></i>
                 <span>{formatDate}</span>
@@ -36,12 +41,17 @@ class DateInput extends Component {
 
     render() {
         const {disabledDate, onSelect, onChange} = this.props;
+        /**
+         * Calendar的事件属性，比如onSelect的default值为function() {}
+         * 而这些事件都不是DateInput的required属性，因此声明出来填充未填项
+         */
+        const defaultFnVal = function() {};
         const calendar = (
             <Calendar
                 showDateInput={false}
-                disabledDate={disabledDate ? disabledDate : null}
-                onSelect={onSelect ? onSelect : null}
-                onChange={onChange ? onChange : null}
+                disabledDate={disabledDate ? disabledDate : defaultFnVal}
+                onSelect={onSelect ? onSelect : defaultFnVal}
+                onChange={onChange ? onChange : defaultFnVal}
             />
         );
 
@@ -50,7 +60,7 @@ class DateInput extends Component {
                 <DatePicker
                     animation='slide-up'
                     calendar={calendar}>
-                    {this.createDateInput}
+                    {this.createDateInput.bind(this)}
                 </DatePicker>
             </div>
         );

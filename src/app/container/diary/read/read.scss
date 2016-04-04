@@ -1,13 +1,8 @@
+@import 'compass/css3';
 @import 'mixin/flexbox';
 
-.page {
-    width: 100%;
-    padding: 0 10% 20px 10%;
-    box-sizing: border-box;
-
-    .toolbar {
-        margin-bottom: 24px;
-    }
+.view {
+    padding: 10px 10%;
 
     .column {
         @include flexbox;

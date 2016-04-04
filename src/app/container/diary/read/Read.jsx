@@ -1,20 +1,22 @@
 import React, {Component} from 'react';
 import {pushState} from 'redux-router';
 import {connect} from 'react-redux';
-import Calendar from 'rc-calendar';
-import DatePicker from 'rc-calendar/lib/Picker';
 import DateTimeFormat from 'gregorian-calendar-format';
-import moment from 'moment';
+
+import Page from '../../../component/page/Page.jsx';
+import DateInput from '../../../component/smallUI/dateInput/DateInput.jsx';
 import * as diaryAction from '../../../action/diaryAction';
 import {rawMarkup} from '../../../mixin/markup';
 import Util from '../../../mixin/util'
 
-import './view.scss';
-import 'rc-calendar/assets/index.css';
+import './read.scss';
 
 const dateStringFormatter = new DateTimeFormat('yyyy-MM-dd');
 
-class View extends Component {
+@connect(
+    state => ({diary: state.diary})
+)
+class Read extends Component {
 
     constructor(props) {
         super(props);
@@ -41,7 +43,7 @@ class View extends Component {
 
         
         let dateString = dateStringFormatter.format(date);
-        dispatch(pushState(null, `/diary/view/${dateString}`));
+        dispatch(pushState(null, `/diary/read/${dateString}`));
     }
 
     /**
@@ -96,7 +98,7 @@ class View extends Component {
         let curDay = now.getDate();
 
         /**
-         * view的路由分两种，带日记日期的和不带的
+         * read的路由分两种，带日记日期的和不带的
          * 带日期的话直接加载该日期的日记，不带则加载最近一天的日记
          * 当月的日记列表无论哪种情况都要强制更新
          */
@@ -141,7 +143,7 @@ class View extends Component {
     }
 
     /**
-     * 路由/diary/view/:date更新时请求新的日记信息
+     * 路由/diary/read/:date更新时请求新的日记信息
      *
      * @param {Object} nextProps 更新后的props
      */
@@ -160,29 +162,6 @@ class View extends Component {
                 });
         }
     }
-
-    /**
-     * Datepicker的子元素，显示当前时间
-     *  DatePicker组件必须传递children，用来显示输入框
-     *
-     * @param {Object} state datepicker的状态
-     *  @property {GregorianCalendar} value 选中的日期
-     *  @property {boolean} open datepicker是否被打开（显示calendar）
-     *
-     * @return {Object} jsx对象
-     */
-    createDateInput() {
-        let {date} = this.state;
-
-        return (
-            <div 
-                className='header-date' 
-                style={{display: !!date ? 'block' : 'none'}}>
-                <i className='fa fa-calendar'></i>
-                <span>{date && moment(date, 'YYYY-MM-DD').format('D MMMM, YYYY')}</span>
-            </div>
-        );
-    }
     
     /**
      * 修改日记，跳转到/edit页面
@@ -196,51 +175,29 @@ class View extends Component {
     render() {
         let {title, content, date} = this.state;
         const auth = this.props.auth.auth;
-
-        const calendar = (
-            <Calendar
-                showDateInput={false}
+        // diary页面的日期组件
+        let DateComponent = (
+            <DateInput
+                date={date}
                 disabledDate={this.disabledDate.bind(this)}
                 onSelect={this.onDateSelect.bind(this)}
-                onChange={this.onYearOrMonthChange.bind(this)}
-            />
+                onChange={this.onYearOrMonthChange.bind(this)}/>
         );
 
         return (
-            <div className="view">
-                <article>
-                    <h1>{title}</h1>
-                    <div className='column'>
-                        <DatePicker
-                            animation='slide-up'
-                            calendar={calendar}>
-                            {this.createDateInput.bind(this)}
-                        </DatePicker>
-                    </div>
-                    <div className="column">
-                        <div 
-                            style={{display: (auth ? 'block' : 'none')}}
-                            className='header-btn-edit' 
-                            onClick={this.edit.bind(this)}>
-                            <i className='fa fa-edit'></i>
-                            <span>EDIT</span>
-                        </div>
-                    </div>
-                    <div 
-                        className="content"
-                        dangerouslySetInnerHTML={rawMarkup(content)}></div>
-                </article>
+            <div className='diary-read'>
+                <Page
+                    /* 这里的date是dateString */
+                    id={date}
+                    title={title}
+                    content={content}
+                    toolbar={{
+                        DateComponent 
+                    }}/>
             </div>
         );
+
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        diary: state.diary
-    };
-}
-
-export default connect(
-    mapStateToProps
-)(View);
+export default Read;

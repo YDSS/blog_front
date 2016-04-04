@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
-import moment from 'moment';
+
+import DateLabel from '../../component/smallUI/dateLabel/DateLabel.jsx';
 import {rawMarkup} from '../../mixin/markup';
 
 import './artListItem.scss';
@@ -26,15 +27,11 @@ class ArtListItem extends Component {
             );
         }
 
-        // 更新时间和创建时间都是mysql Date类型
-        let formatPattern = 'DD MMMM, YYYY';
-        let updatedAtFormat = moment(new Date(updatedAt)).format(formatPattern);
-
         return (
             <div className='list-item'>
                 <h1 className='title'>{title}</h1>
                 <div className='info-bar'>
-                    <i className='fa fa-calendar'></i><span className='time'>{updatedAtFormat}</span>
+                    <DateLabel date={updatedAt}/>
                     {tags ? Jtags : null}
                 </div>
                 <div 

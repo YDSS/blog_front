@@ -1,10 +1,12 @@
 @import 'ui/icon';
 
-.date-input {
+.date-label {
+    @extend %ui;
+
     font-size: $fs;
     color: $fc-readonly;
 
-    > i {
+    i {
         margin-right: 5px;
     }
 }

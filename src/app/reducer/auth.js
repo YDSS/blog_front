@@ -1,6 +1,4 @@
-const initialState = {
-    auth: __data.auth
-};
+const initialState = __data.auth;
 
 export default function auth(state = initialState, action) {
     switch (action.type) {
