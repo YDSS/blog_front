@@ -15,10 +15,9 @@ class Page extends Component {
     render() {
         const {title, content, tags, toolbar} = this.props;
         const {DateComponent, EditBtn} = toolbar;
-        // const auth = this.props.auth.auth;
         
         return (
-            <div className="page">
+            <div className="comp-page">
                 <article>
                     <header>
                         <h1>{title}</h1>

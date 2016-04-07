@@ -1,15 +1,11 @@
-import React, { Component } from 'react';
-import { dispatch } from 'redux';
+import React, {Component, PropTypes} from 'react';
 
 import './pagination.scss';
 
 /**
  * 翻页组件
  *
- * @props {number} maxPage 最多可以显示多少个页码
- * @props {number} pageSum 当前总页数
- * @props {Function} paginate 翻页函数
- * @props {number} curPage 当前页码
+ * @author YDSS
  */
 class Pagination extends Component {
 
@@ -136,5 +132,19 @@ class Pagination extends Component {
         );
     }
 }
+/**
+ * @props {number} maxPage 最多可以显示多少个页码
+ * @props {number} pageSum 当前总页数
+ * @props {Function} paginate 翻页函数
+ * @props {number} curPage 当前页码
+ */
+
+Pagination.propTypes = {
+    maxPage: PropTypes.number.isRequired,
+    pageSum: PropTypes.number.isRequired,
+    curPage: PropTypes.number.isRequired,
+    // 翻页动作，由container组件提供，因为涉及mutate状态
+    paginate: PropTypes.func.isRequired
+};
 
 export default Pagination;
