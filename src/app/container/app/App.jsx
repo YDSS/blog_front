@@ -6,27 +6,11 @@ import Header from '../../component/header/Header.jsx';
 @connect(state => ({
     // state.router is state of redux-router for routing
     // must be return as name router
-    router: state.router,
-    navItem: state.navItem,
-    diary: state.diary,
-    auth: state.auth
+    router: state.router
 }))
 class App extends Component {
 
-    renderChildren(...props) {
-        return React.Children.map(
-            this.props.children,
-            child => {
-                return React.cloneElement(
-                    child,
-                    ...props
-                )
-            }
-        );
-    }
-
     render() {
-        const { children,  navItem, ...other } = this.props;
         // 头像url，Header组件和Sidebar组件都用到，因此在app中保存
         const avatarUrl = require('../../../img/avatar.png');
         // 头像title
@@ -37,7 +21,7 @@ class App extends Component {
                 <Header avatarUrl={avatarUrl}/>
                 <Sidebar avatarUrl={avatarUrl} name={name}/>
                 <div className="body markdown-body">
-                    {children && this.renderChildren(other)}
+                    {this.props.children}
                 </div>
             </div>
         );

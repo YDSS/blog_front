@@ -4,7 +4,7 @@ import App from './container/app/App.jsx';
 import Home from './container/home/Home.jsx';
 import Editor from './container/editor/Editor.jsx';
 import Article from './container/article/Article.jsx';
-import Upload from './component/diary/upload/Upload.jsx';
+import Upload from './container/diary/upload/upload.jsx';
 import Read from './container/diary/read/Read.jsx';
 
 // normal react-router configure

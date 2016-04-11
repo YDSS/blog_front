@@ -1,7 +1,7 @@
 @import 'compass/css3';
 @import 'mixin/flexbox';
 
-.upload {
+.comp-fileupload {
     @include flexbox;
     @include justify-content(center);
 

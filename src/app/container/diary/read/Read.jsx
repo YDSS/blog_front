@@ -9,12 +9,10 @@ import * as diaryAction from '../../../action/diaryAction';
 import {rawMarkup} from '../../../mixin/markup';
 import Util from '../../../mixin/util'
 
-import './read.scss';
-
 const dateStringFormatter = new DateTimeFormat('yyyy-MM-dd');
 
 @connect(
-    state => ({diary: state.diary})
+    state => ({diary: state.diary, auth: state.auth})
 )
 class Read extends Component {
 
@@ -185,7 +183,7 @@ class Read extends Component {
         );
 
         return (
-            <div className='diary-read'>
+            <div className='comp-diary-read'>
                 <Page
                     /* 这里的date是dateString */
                     id={date}
